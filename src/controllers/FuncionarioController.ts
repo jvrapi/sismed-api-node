@@ -16,7 +16,9 @@ export default {
     const { id } = request.params;
     const repository = getRepository(Funcionario);
     const funcionario = await repository.findOne({ id: parseInt(id) });
-    return response.json(FuncionarioView.funcionario(funcionario));
+    if (funcionario)
+      return response.json(FuncionarioView.funcionario(funcionario));
+
   },
 
   async medicos(request: Request, response: Response) {
