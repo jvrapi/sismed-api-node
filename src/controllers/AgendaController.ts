@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import Agenda from '../models/SismedAgenda';
+import AgendaView from '../views/AgendaView';
 
 export default {
   async listarTodos(request: Request, response: Response) {
@@ -67,4 +68,71 @@ export default {
     const agendamento = await repository.save(dados);
     return response.status(201).json(agendamento);
   },
+
+  async atualizar(request: Request, response: Response) {
+    const {
+      id,
+      data,
+      hora,
+      paciente,
+      funcionario,
+      procedimento,
+      tipoConvenio,
+      pagou,
+      primeiraVez,
+      compareceu,
+    } = request.body;
+
+
+    const repository = getRepository(Agenda);
+    const hasAgendamento = await repository.findOne(
+      { data, hora, funcionarioId: parseInt(funcionario) },
+    );
+    if (hasAgendamento) {
+      if (hasAgendamento.id != id) {
+        return response.status(409).json({ messagem: 'Médico já possui agendamento para data e hora informados' });
+      }
+    }
+    const dados = {
+      id,
+      data,
+      hora,
+      pacienteId: paciente,
+      funcionarioId: funcionario,
+      procedimentoId: procedimento,
+      tipoConvenioId: tipoConvenio,
+      pagou,
+      primeiraVez,
+      compareceu,
+    };
+    const agendamento = await repository.save(dados);
+    return response.json(agendamento);
+
+  },
+
+  async listarPorId(request: Request, response: Response) {
+    const { id } = request.params;
+    const repository = getRepository(Agenda);
+    const agendamento = await repository.findOne(
+      {
+        where: { id: parseInt(id) },
+        relations: [
+          'tipoConvenio',
+          'tipoConvenio.convenio',
+          'paciente',
+          'paciente.tipoConvenio',
+          'paciente.tipoConvenio.convenio',
+          'funcionario',
+          'procedimento',
+          'procedimento.convenio'
+        ]
+      }
+    );
+    if (agendamento) {
+      return response.json(AgendaView.detalhes(agendamento));
+
+    } else {
+      return response.sendStatus(200);
+    }
+  }
 };
