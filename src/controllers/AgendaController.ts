@@ -154,5 +154,16 @@ export default {
       }
     );
     return response.json(agendamentos);
+  },
+  async excluir(request: Request, response: Response) {
+
+    const { id } = request.params;
+    const repository = getRepository(Agenda);
+    try {
+      await repository.delete(id);
+      return response.status(200).json([]);
+    } catch {
+      return response.sendStatus(500).json({ messagem: 'Erro ao tentar excluir o agendamento' })
+    }
   }
 };
