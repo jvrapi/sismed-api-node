@@ -4,6 +4,8 @@ import PacienteRotas from './paciente.routes';
 import AgendaRotas from './agenda.routes';
 import FuncionarioRotas from './funcionario.routes';
 import ProcedimentoRotas from './procedimentos.routes';
+import RegistroClinicoRotas from './registroClinico.routes';
+import RelatorioRotas from './relatorio.routes';
 import UserController from '../controllers/UserController';
 
 const Routers = Router();
@@ -13,5 +15,7 @@ Routers.use('/paciente', AutenticacaoMiddleware, PacienteRotas);
 Routers.use('/agenda', AutenticacaoMiddleware, AgendaRotas);
 Routers.use('/funcionario', AutenticacaoMiddleware, FuncionarioRotas);
 Routers.use('/procedimento', AutenticacaoMiddleware, ProcedimentoRotas);
+Routers.use('/registroClinico', AutenticacaoMiddleware, RegistroClinicoRotas);
+Routers.use('/relatorio', AutenticacaoMiddleware, RelatorioRotas);
 
 export default Routers;

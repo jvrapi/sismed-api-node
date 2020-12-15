@@ -11,7 +11,7 @@ import SismedPaciente from './SismedPaciente';
 import SismedFuncionario from './SismedFuncionario';
 import SismedProcedimento from './SismedProcedimento';
 import SismedTipoConvenio from './SismedTipoConvenio';
-import SismedCustos from './SismedCustos';
+import SismedRelatorio from './SismedRelatorio';
 import SismedRegistroClinico from './SismedRegistroClinico';
 
 @Entity('sismed_agenda', { schema: 'macmassc_sismed' })
@@ -84,8 +84,8 @@ export default class SismedAgenda {
   @JoinColumn([{ name: 'tipo_convenio_id', referencedColumnName: 'id' }])
   tipoConvenio: SismedTipoConvenio;
 
-  @OneToMany(() => SismedCustos, (sismedCustos) => sismedCustos.agendamento2)
-  sismedCustos: SismedCustos[];
+  @OneToMany(() => SismedRelatorio, (sismedRelatorio) => sismedRelatorio.agendamento2)
+  sismedRelatorio: SismedRelatorio[];
 
   @OneToMany(
     () => SismedRegistroClinico,

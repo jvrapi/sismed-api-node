@@ -5,6 +5,7 @@ import AgendaView from '../views/AgendaView';
 
 export default {
   async listarTodos(request: Request, response: Response) {
+
     const { id } = request.params;
     const repository = getRepository(Agenda);
     const agendamentos = await repository.find({
@@ -22,7 +23,7 @@ export default {
         funcionarioId: parseInt(id),
         data,
       },
-      relations: ['paciente', 'tipoConvenio', 'tipoConvenio.convenio'],
+      relations: ['paciente', 'paciente.tipoConvenio', 'paciente.tipoConvenio.convenio', 'tipoConvenio', 'tipoConvenio.convenio', 'procedimento'],
     });
     return response.json(agendamentos);
   },
@@ -65,11 +66,13 @@ export default {
       primeiraVez,
       compareceu,
     };
-    const agendamento = await repository.save(dados);
-    return response.status(201).json(agendamento);
+    const agendamento = repository.create(dados)
+    const agendamentoSalvo = await repository.save(agendamento);
+    return response.status(201).json(agendamentoSalvo);
   },
 
   async atualizar(request: Request, response: Response) {
+
     const {
       id,
       data,
@@ -81,7 +84,10 @@ export default {
       pagou,
       primeiraVez,
       compareceu,
+      finalizado
     } = request.body;
+
+
 
 
     const repository = getRepository(Agenda);
@@ -104,7 +110,9 @@ export default {
       pagou,
       primeiraVez,
       compareceu,
+      finalizado
     };
+
     const agendamento = await repository.save(dados);
     return response.json(agendamento);
 

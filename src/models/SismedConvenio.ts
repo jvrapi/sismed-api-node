@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import SismedDadosBancarios from './SismedDadosBancarios';
-import SismedCustos from './SismedCustos';
+import SismedRelatorio from './SismedRelatorio';
 import SismedProcedimento from './SismedProcedimento';
 import SismedTipoConvenio from './SismedTipoConvenio';
 
@@ -40,8 +40,8 @@ export default class SismedConvenio {
   @JoinColumn([{ name: 'dados_bancarios', referencedColumnName: 'id' }])
   dadosBancarios2: SismedDadosBancarios;
 
-  @OneToMany(() => SismedCustos, (sismedCustos) => sismedCustos.convenio2)
-  sismedCustos: SismedCustos[];
+  @OneToMany(() => SismedRelatorio, (sismedRelatorio) => sismedRelatorio.convenio2)
+  sismedRelatorio: SismedRelatorio[];
 
   @OneToMany(
     () => SismedProcedimento,

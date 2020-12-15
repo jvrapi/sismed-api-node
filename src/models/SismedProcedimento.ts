@@ -1,14 +1,13 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import SismedAgenda from './SismedAgenda';
-import SismedCustos from './SismedCustos';
+import SismedRelatorio from './SismedRelatorio';
 import SismedConvenio from './SismedConvenio';
 
 @Entity('sismed_procedimento', { schema: 'macmassc_sismed' })
@@ -28,8 +27,8 @@ export default class SismedProcedimento {
   @OneToMany(() => SismedAgenda, (sismedAgenda) => sismedAgenda.procedimento)
   sismedAgenda: SismedAgenda[];
 
-  @OneToMany(() => SismedCustos, (sismedCustos) => sismedCustos.procedimento2)
-  sismedCustos: SismedCustos[];
+  @OneToMany(() => SismedRelatorio, (sismedRelatorio) => sismedRelatorio.procedimento2)
+  sismedRelatorio: SismedRelatorio[];
 
   @ManyToOne(
     () => SismedConvenio,

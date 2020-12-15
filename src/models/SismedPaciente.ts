@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import SismedAgenda from './SismedAgenda';
-import SismedCustos from './SismedCustos';
+import SismedRelatorio from './SismedRelatorio';
 import SismedExame from './SismedExame';
 import SismedTipoConvenio from './SismedTipoConvenio';
 import SismedEndereco from './SismedEndereco';
@@ -85,8 +85,8 @@ export default class SismedPaciente {
   @OneToMany(() => SismedAgenda, (sismedAgenda) => sismedAgenda.paciente)
   sismedAgenda: SismedAgenda[];
 
-  @OneToMany(() => SismedCustos, (sismedCustos) => sismedCustos.paciente2)
-  sismedCustos: SismedCustos[];
+  @OneToMany(() => SismedRelatorio, (sismedRelatorio) => sismedRelatorio.paciente2)
+  SismedRelatorio: SismedRelatorio[];
 
   @OneToMany(() => SismedExame, (sismedExame) => sismedExame.paciente)
   sismedExames: SismedExame[];

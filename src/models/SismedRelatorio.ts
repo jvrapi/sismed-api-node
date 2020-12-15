@@ -12,8 +12,8 @@ import SismedFuncionario from './SismedFuncionario';
 import SismedProcedimento from './SismedProcedimento';
 import SismedAgenda from './SismedAgenda';
 
-@Entity('sismed_custos', { schema: 'macmassc_sismed' })
-export default class SismedCustos {
+@Entity('sismed_relatorio')
+export default class SismedRelatorio {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
@@ -43,7 +43,7 @@ export default class SismedCustos {
 
   @ManyToOne(
     () => SismedConvenio,
-    (sismedConvenio) => sismedConvenio.sismedCustos,
+    (sismedConvenio) => sismedConvenio.sismedRelatorio,
     { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
   )
   @JoinColumn([{ name: 'convenio', referencedColumnName: 'id' }])
@@ -51,7 +51,7 @@ export default class SismedCustos {
 
   @ManyToOne(
     () => SismedPaciente,
-    (sismedPaciente) => sismedPaciente.sismedCustos,
+    (sismedPaciente) => sismedPaciente.SismedRelatorio,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'paciente', referencedColumnName: 'prontuario' }])
@@ -59,7 +59,7 @@ export default class SismedCustos {
 
   @ManyToOne(
     () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.sismedCustos,
+    (sismedFuncionario) => sismedFuncionario.sismedRelatorio,
     { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'funcionario', referencedColumnName: 'id' }])
@@ -67,13 +67,13 @@ export default class SismedCustos {
 
   @ManyToOne(
     () => SismedProcedimento,
-    (sismedProcedimento) => sismedProcedimento.sismedCustos,
+    (sismedProcedimento) => sismedProcedimento.sismedRelatorio,
     { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
   )
   @JoinColumn([{ name: 'procedimento', referencedColumnName: 'id' }])
   procedimento2: SismedProcedimento;
 
-  @ManyToOne(() => SismedAgenda, (sismedAgenda) => sismedAgenda.sismedCustos, {
+  @ManyToOne(() => SismedAgenda, (sismedAgenda) => sismedAgenda.sismedRelatorio, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })

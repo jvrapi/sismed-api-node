@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import SismedAgenda from './SismedAgenda';
-import SismedCustos from './SismedCustos';
+import SismedRelatorio from './SismedRelatorio';
 import SismedExame from './SismedExame';
 import SismedEndereco from './SismedEndereco';
 import SismedPerfil from './SismedPerfil';
@@ -99,8 +99,8 @@ export default class SismedFuncionario {
   @OneToMany(() => SismedAgenda, (sismedAgenda) => sismedAgenda.funcionario)
   sismedAgenda: SismedAgenda[];
 
-  @OneToMany(() => SismedCustos, (sismedCustos) => sismedCustos.funcionario2)
-  sismedCustos: SismedCustos[];
+  @OneToMany(() => SismedRelatorio, (sismedRelatorio) => sismedRelatorio.funcionario2)
+  sismedRelatorio: SismedRelatorio[];
 
   @OneToMany(() => SismedExame, (sismedExame) => sismedExame.funcionario)
   sismedExames: SismedExame[];
