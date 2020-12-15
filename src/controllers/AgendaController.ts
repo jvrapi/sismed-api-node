@@ -142,5 +142,17 @@ export default {
     } else {
       return response.sendStatus(200);
     }
+  },
+  async agendamentosAnteriores(request: Request, response: Response) {
+    const { id } = request.params;
+    const repository = getRepository(Agenda);
+    const agendamentos = await repository.find(
+      {
+        where: { pacienteId: parseInt(id) },
+        order: { data: 'DESC', hora: 'ASC' },
+        relations: ['paciente', 'paciente.tipoConvenio', 'paciente.tipoConvenio.convenio', 'funcionario']
+      }
+    );
+    return response.json(agendamentos);
   }
 };
