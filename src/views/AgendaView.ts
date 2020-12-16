@@ -9,6 +9,7 @@ export default {
       compareceu: agendamento.compareceu,
       pagou: agendamento.pagou,
       primeiraVez: agendamento.primeiraVez,
+      observacao: agendamento.observacao,
       paciente: {
         prontuario: agendamento.paciente.prontuario,
         nome: agendamento.paciente.nome,
@@ -46,6 +47,41 @@ export default {
         }
       }
     }
+  },
+  lista(agendamentos: Agenda[]) {
+    return agendamentos.map(agendamento => {
+      return {
+        id: agendamento.id,
+        data: agendamento.data,
+        hora: agendamento.hora,
+        compareceu: agendamento.compareceu,
+        pagou: agendamento.pagou,
+        primeiraVez: agendamento.primeiraVez,
+        observacao: agendamento.observacao,
+        finalizado: agendamento.finalizado,
+        paciente: {
+          prontuario: agendamento.paciente.prontuario,
+          nome: agendamento.paciente.nome,
+          telefoneFixo: agendamento.paciente.telefoneFixo,
+          celular: agendamento.paciente.celular,
+          dataNascimento: agendamento.paciente.dataNascimento,
+
+        },
+        funcionario: {
+          id: agendamento.funcionario.id,
+          nome: agendamento.funcionario.nome,
+        },
+        tipoConvenio: {
+          id: agendamento.tipoConvenio.id,
+          nome: agendamento.tipoConvenio.nome,
+          convenio: {
+            id: agendamento.tipoConvenio.convenio.id,
+            nome: agendamento.tipoConvenio.convenio.nome
+          }
+        },
+
+      }
+    })
   }
 }
 

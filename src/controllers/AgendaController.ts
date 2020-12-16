@@ -23,15 +23,23 @@ export default {
         funcionarioId: parseInt(id),
         data,
       },
-      relations: ['paciente', 'paciente.tipoConvenio', 'paciente.tipoConvenio.convenio', 'tipoConvenio', 'tipoConvenio.convenio', 'procedimento'],
+      relations: [
+        'tipoConvenio',
+        'tipoConvenio.convenio',
+        'paciente',
+        'funcionario',
+        'procedimento',
+      ],
     });
-    return response.json(agendamentos);
+    return response.json(AgendaView.lista(agendamentos));
   },
 
   async ultimoAgendamento(request: Request, response: Response) {
     const { prontuario } = request.params;
     const repository = getRepository(Agenda);
-    const agendamento = await repository.createQueryBuilder('a').where(`a.pacienteId = ${parseInt(prontuario)}`).orderBy('a.id').take(1)
+    const agendamento = await repository.createQueryBuilder('a')
+      .where(`a.pacienteId = ${parseInt(prontuario)}`)
+      .orderBy('a.id').take(1)
       .getOne();
     return response.json(agendamento);
   },
@@ -96,7 +104,11 @@ export default {
     );
     if (hasAgendamento) {
       if (hasAgendamento.id != id) {
-        return response.status(409).json({ messagem: 'Médico já possui agendamento para data e hora informados' });
+        return response.status(409).json(
+          {
+            messagem: 'Médico já possui agendamento para data e hora informados'
+          }
+        );
       }
     }
     const dados = {
