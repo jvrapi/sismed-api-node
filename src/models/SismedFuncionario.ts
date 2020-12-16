@@ -125,7 +125,7 @@ export default class SismedFuncionario {
     () => SismedFuncionarioTconvenio,
     (sismedFuncionarioTconvenio) => sismedFuncionarioTconvenio.funcionario,
   )
-  sismedFuncionarioTconvenios: SismedFuncionarioTconvenio[];
+  funcionarioTconvenios: SismedFuncionarioTconvenio[];
 
   @OneToMany(() => SismedLog, (sismedLog) => sismedLog.funcionario)
   sismedLogs: SismedLog[];
@@ -134,5 +134,5 @@ export default class SismedFuncionario {
     () => SismedRegistroClinico,
     (sismedRegistroClinico) => sismedRegistroClinico.funcionario,
   )
-  sismedRegistroClinicos: SismedRegistroClinico[];
+  registroClinicos: SismedRegistroClinico[];
 }

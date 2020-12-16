@@ -22,7 +22,7 @@ export default class SismedFuncionarioTconvenio {
 
   @ManyToOne(
     () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.sismedFuncionarioTconvenios,
+    (sismedFuncionario) => sismedFuncionario.funcionarioTconvenios,
     { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'funcionario_id', referencedColumnName: 'id' }])

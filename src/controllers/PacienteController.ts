@@ -19,7 +19,12 @@ export default {
     const paciente = await pacienteRepository.findOne(
       {
         where: { prontuario: parseInt(prontuario) },
-        relations: ['tipoConvenio', 'tipoConvenio.convenio']
+        relations:
+          [
+            'tipoConvenio',
+            'tipoConvenio.convenio',
+            'endereco'
+          ]
       },
     );
 
@@ -90,5 +95,65 @@ export default {
     );
     return response.json(PacienteView.listar(pacientes));
   },
+
+  async atualizar(request: Request, response: Response) {
+    const {
+      prontuario,
+      nome,
+      dataNascimento,
+      cpf,
+      rg,
+      orgaoEmissor,
+      dataEmissao,
+      naturalidade,
+      nacionalidade,
+      telefoneFixo,
+      telefoneTrabalho,
+      celular,
+      email,
+      sexo,
+      estadoCivil,
+      escolaridade,
+      profissao,
+      recomendacao,
+      tipoConvenio,
+      carteiraConvenio,
+      validade,
+      situacao,
+      endereco
+    } = request.body;
+    const repository = getRepository(Paciente);
+
+    const dados = {
+      prontuario,
+      nome,
+      dataNascimento,
+      cpf,
+      rg,
+      orgaoEmissor,
+      dataEmissao,
+      naturalidade,
+      nacionalidade,
+      telefoneFixo,
+      telefoneTrabalho,
+      celular,
+      email,
+      sexo,
+      estadoCivil,
+      escolaridade,
+      profissao,
+      recomendacao,
+      tipoConvenio,
+      carteiraConvenio,
+      validade,
+      situacao,
+      endereco
+    }
+
+    const paciente = await repository.save(dados)
+
+    return response.json(paciente)
+
+  }
 
 };

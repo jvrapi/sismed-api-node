@@ -51,7 +51,7 @@ export default class SismedRegistroClinico {
 
   @ManyToOne(
     () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.sismedRegistroClinicos,
+    (sismedFuncionario) => sismedFuncionario.registroClinicos,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'funcionario_id', referencedColumnName: 'id' }])

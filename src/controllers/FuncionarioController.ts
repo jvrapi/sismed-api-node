@@ -3,6 +3,8 @@ import { getRepository, IsNull, Not } from 'typeorm';
 import Funcionario from '../models/SismedFuncionario';
 import Convenio from '../models/SismedConvenio';
 import TipoConvenio from '../models/SismedTipoConvenio';
+import FuncionarioTipoConvenio from '../models/SismedFuncionarioTconvenio';
+
 import FuncionarioView from '../views/FuncionarioView';
 
 export default {
@@ -30,31 +32,26 @@ export default {
   async conveniosAceitos(request: Request, response: Response) {
     const { id } = request.params;
     const repository = getRepository(Convenio);
-    let convenios = await repository.query(
-      'SELECT distinct c.* '
-      + 'FROM sismed_funcionario f INNER JOIN sismed_funcionario_tconvenio ft '
-      + 'ON f.id = ft.funcionario_id '
-      + 'INNER JOIN sismed_tipo_convenio tc ON tc.id = ft.tipo_convenio_id '
-      + 'INNER JOIN sismed_convenio c ON c.id = tc.convenio_id WHERE '
-      + `funcionario_id = ${id}`,
-    );
-    convenios = convenios.filter((convenio: Convenio) => {
-      if (convenio.id !== 14) {
-        return convenio;
-      }
-    });
+    let convenios = await repository.createQueryBuilder('c')
+      .select(['c.id as id', 'c.nome as nome'])
+      .distinct(true)
+      .innerJoin(TipoConvenio, 'tc', 'tc.convenioId = c.id')
+      .innerJoin(FuncionarioTipoConvenio, 'ft', 'ft.tipoConvenioId = tc.id')
+      .innerJoin(Funcionario, 'f', 'ft.funcionarioId = f.id')
+      .where(`f.id = ${id} AND c.id <> 14`)
+      .getRawMany();
     return response.json(convenios);
   },
 
   async tiposConvenioAceitos(request: Request, response: Response) {
     const { funcionarioId, convenioId } = request.params;
     const repository = getRepository(TipoConvenio);
-    const tiposConvenio = await repository.query(
-      'SELECT tc.* '
-      + 'FROM sismed_funcionario f INNER JOIN sismed_funcionario_tconvenio ft ON f.id = ft.funcionario_id '
-      + 'INNER JOIN sismed_tipo_convenio tc ON ft.tipo_convenio_id = tc.id '
-      + `WHERE f.id = ${funcionarioId} AND tc.convenio_id = ${convenioId} `,
-    );
+    const tiposConvenio = await repository.createQueryBuilder('tc')
+      .select(['tc.id as id', 'tc.nome as nome'])
+      .innerJoin(FuncionarioTipoConvenio, 'ft', 'ft.tipoConvenioId = tc.id')
+      .innerJoin(Funcionario, 'f', 'ft.funcionarioId = f.id')
+      .where(`f.id = ${funcionarioId} AND tc.convenio_id = ${convenioId}`)
+      .getRawMany();
     return response.json(tiposConvenio);
   },
 
