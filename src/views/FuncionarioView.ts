@@ -16,22 +16,14 @@ export default {
       id: funcionario.id,
       nome: funcionario.nome,
       cpf: funcionario.cpf,
-      rg: funcionario.rg,
-      orgaoEmissor: funcionario.orgaoEmissor,
-      dataEmissao: funcionario.dataEmissao,
+
       crm: funcionario.crm,
       especialidade: funcionario.especialidade,
       telefoneFixo: funcionario.telefoneFixo,
       celular: funcionario.celular,
-      sexo: funcionario.sexo,
-      dataNascimento: funcionario.dataNascimento,
+
       email: funcionario.email,
-      estadoCivil: funcionario.estadoCivil,
-      escolaridade: funcionario.escolaridade,
-      naturalidade: funcionario.naturalidade,
-      dataInicio: funcionario.dataInicio,
-      dataTermino: funcionario.dataTermino,
-      nacionalidade: funcionario.nacionalidade,
+
     };
   },
 

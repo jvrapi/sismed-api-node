@@ -22,8 +22,8 @@ export default {
       pacienteId
     }
     const registroClinico = repository.create(dados);
-    const registroClinicoSalvo = await repository.save(registroClinico)
-    return response.status(201).json(registroClinicoSalvo);
+    await repository.save(registroClinico)
+    return response.status(201).json(registroClinico);
 
   }
 }

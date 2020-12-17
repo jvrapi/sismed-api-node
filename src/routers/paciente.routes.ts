@@ -12,5 +12,6 @@ Routers.get('/celular/:celular', PacienteController.listarPorCelular);
 Routers.get('/telefone/:telefone', PacienteController.listarPorTelefone);
 Routers.get('/prontuario/:prontuario', PacienteController.listarPorProntuario);
 Routers.put('/', PacienteController.atualizar)
-
+Routers.delete('/:prontuario', PacienteController.excluir)
+Routers.post('/', PacienteController.salvar)
 export default Routers;

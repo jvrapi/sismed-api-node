@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getRepository, IsNull, Not } from 'typeorm';
+import { getRepository, IsNull, Not, Like } from 'typeorm';
 import Funcionario from '../models/SismedFuncionario';
 import Convenio from '../models/SismedConvenio';
 import TipoConvenio from '../models/SismedTipoConvenio';
@@ -53,6 +53,48 @@ export default {
       .where(`f.id = ${funcionarioId} AND tc.convenio_id = ${convenioId}`)
       .getRawMany();
     return response.json(tiposConvenio);
+  },
+
+  async listarPorNome(request: Request, response: Response) {
+    const { nome } = request.params;
+    const repository = getRepository(Funcionario);
+    const funcionarios = await repository.find({ where: { nome: Like(`%${nome}%`) } });
+    response.json(FuncionarioView.funcionarios(funcionarios))
+  },
+
+  async listarPorCpf(request: Request, response: Response) {
+    const { cpf } = request.params;
+    const repository = getRepository(Funcionario);
+    const funcionarios = await repository.find({ where: { cpf: Like(`%${cpf}%`) } });
+    response.json(FuncionarioView.funcionarios(funcionarios))
+  },
+
+  async listarPorCrm(request: Request, response: Response) {
+    const { crm } = request.params;
+    const repository = getRepository(Funcionario);
+    const funcionarios = await repository.find({ where: { crm: Like(`%${crm}%`) } });
+    response.json(FuncionarioView.funcionarios(funcionarios))
+  },
+
+  async listarPorCelular(request: Request, response: Response) {
+    const { celular } = request.params;
+    const repository = getRepository(Funcionario);
+    const funcionarios = await repository.find({ where: { celular: Like(`%${celular}%`) } });
+    response.json(FuncionarioView.funcionarios(funcionarios))
+  },
+
+  async listarPorMatricula(request: Request, response: Response) {
+    const { id } = request.params;
+    const repository = getRepository(Funcionario);
+    const funcionarios = await repository.find({ where: { id } });
+    response.json(FuncionarioView.funcionarios(funcionarios))
+  },
+
+  async listarPorEspecialidade(request: Request, response: Response) {
+    const { especialidade } = request.params;
+    const repository = getRepository(Funcionario);
+    const funcionarios = await repository.find({ where: { especialidade: Like(`%${especialidade}%`) } });
+    response.json(FuncionarioView.funcionarios(funcionarios))
   },
 
 };

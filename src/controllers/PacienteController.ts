@@ -154,6 +154,77 @@ export default {
 
     return response.json(paciente)
 
-  }
+  },
+  async salvar(request: Request, response: Response) {
+
+    const {
+      nome,
+      dataNascimento,
+      cpf,
+      rg,
+      orgaoEmissor,
+      dataEmissao,
+      naturalidade,
+      nacionalidade,
+      telefoneFixo,
+      telefoneTrabalho,
+      celular,
+      email,
+      sexo,
+      estadoCivil,
+      escolaridade,
+      profissao,
+      recomendacao,
+      tipoConvenio,
+      carteiraConvenio,
+      validade,
+      situacao,
+      endereco
+    } = request.body;
+    const repository = getRepository(Paciente);
+
+    const dados = {
+      nome,
+      dataNascimento,
+      cpf,
+      rg,
+      orgaoEmissor,
+      dataEmissao,
+      naturalidade,
+      nacionalidade,
+      telefoneFixo,
+      telefoneTrabalho,
+      celular,
+      email,
+      sexo,
+      estadoCivil,
+      escolaridade,
+      profissao,
+      recomendacao,
+      tipoConvenio,
+      carteiraConvenio,
+      validade,
+      situacao,
+      endereco
+    }
+
+    const paciente = await repository.create(dados);
+    await repository.save(paciente);
+
+    return response.status(201).json(paciente)
+  },
+  async excluir(request: Request, response: Response) {
+
+    const { prontuario } = request.params;
+    const repository = getRepository(Paciente);
+    try {
+      await repository.delete(prontuario);
+      return response.status(200).json([]);
+    } catch {
+      return response.sendStatus(500).json({ messagem: 'Erro ao tentar excluir o agendamento' })
+    }
+  },
 
 };
+
+

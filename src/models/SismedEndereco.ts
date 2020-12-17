@@ -1,9 +1,9 @@
 import {
   Column, Entity, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedFuncionario from './SismedFuncionario';
-import SismedLaboratorio from './SismedLaboratorio';
-import SismedPaciente from './SismedPaciente';
+import Funcionario from './SismedFuncionario';
+import Laboratorio from './SismedLaboratorio';
+import Paciente from './SismedPaciente';
 
 @Entity('sismed_endereco', { schema: 'macmassc_sismed' })
 export default class SismedEndereco {
@@ -32,17 +32,17 @@ export default class SismedEndereco {
   estado: string | null;
 
   @OneToMany(
-    () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.endereco,
+    () => Funcionario,
+    (Funcionario) => Funcionario.endereco,
   )
-  sismedFuncionarios: SismedFuncionario[];
+  funcionarios: Funcionario[];
 
   @OneToMany(
-    () => SismedLaboratorio,
-    (sismedLaboratorio) => sismedLaboratorio.endereco,
+    () => Laboratorio,
+    (Laboratorio) => Laboratorio.endereco,
   )
-  sismedLaboratorios: SismedLaboratorio[];
+  laboratorios: Laboratorio[];
 
-  @OneToMany(() => SismedPaciente, (sismedPaciente) => sismedPaciente.endereco)
-  sismedPacientes: SismedPaciente[];
+  @OneToMany(() => Paciente, (Paciente) => Paciente.endereco)
+  pacientes: Paciente[];
 }

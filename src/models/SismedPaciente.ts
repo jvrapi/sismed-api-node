@@ -7,12 +7,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedAgenda from './SismedAgenda';
-import SismedRelatorio from './SismedRelatorio';
-import SismedExame from './SismedExame';
-import SismedTipoConvenio from './SismedTipoConvenio';
-import SismedEndereco from './SismedEndereco';
-import SismedRegistroClinico from './SismedRegistroClinico';
+import Agenda from './SismedAgenda';
+import Relatorio from './SismedRelatorio';
+import Exame from './SismedExame';
+import TipoConvenio from './SismedTipoConvenio';
+import Endereco from './SismedEndereco';
+import RegistroClinico from './SismedRegistroClinico';
 
 @Entity('sismed_paciente', { schema: 'macmassc_sismed' })
 export default class SismedPaciente {
@@ -82,34 +82,34 @@ export default class SismedPaciente {
   @Column('date', { name: 'validade', nullable: true })
   validade: string | null;
 
-  @OneToMany(() => SismedAgenda, (sismedAgenda) => sismedAgenda.paciente)
-  sismedAgenda: SismedAgenda[];
+  @OneToMany(() => Agenda, (Agenda) => Agenda.paciente)
+  agenda: Agenda[];
 
-  @OneToMany(() => SismedRelatorio, (sismedRelatorio) => sismedRelatorio.paciente2)
-  SismedRelatorio: SismedRelatorio[];
+  @OneToMany(() => Relatorio, (Relatorio) => Relatorio.paciente2)
+  relatorio: Relatorio[];
 
-  @OneToMany(() => SismedExame, (sismedExame) => sismedExame.paciente)
-  sismedExames: SismedExame[];
+  @OneToMany(() => Exame, (Exame) => Exame.paciente)
+  exames: Exame[];
 
   @ManyToOne(
-    () => SismedTipoConvenio,
-    (sismedTipoConvenio) => sismedTipoConvenio.sismedPacientes,
+    () => TipoConvenio,
+    (TipoConvenio) => TipoConvenio.pacientes,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'tipo_convenio', referencedColumnName: 'id' }])
-  tipoConvenio: SismedTipoConvenio;
+  tipoConvenio: TipoConvenio;
 
   @ManyToOne(
-    () => SismedEndereco,
-    (sismedEndereco) => sismedEndereco.sismedPacientes,
-    { onDelete: 'RESTRICT', onUpdate: 'RESTRICT' },
+    () => Endereco,
+    (Endereco) => Endereco.pacientes,
+    { onDelete: 'RESTRICT', onUpdate: 'RESTRICT', cascade: true },
   )
   @JoinColumn([{ name: 'endereco_id', referencedColumnName: 'id' }])
-  endereco: SismedEndereco;
+  endereco: Endereco;
 
   @OneToMany(
-    () => SismedRegistroClinico,
-    (sismedRegistroClinico) => sismedRegistroClinico.paciente,
+    () => RegistroClinico,
+    (RegistroClinico) => RegistroClinico.paciente,
   )
-  sismedRegistroClinicos: SismedRegistroClinico[];
+  registroClinicos: RegistroClinico[];
 }

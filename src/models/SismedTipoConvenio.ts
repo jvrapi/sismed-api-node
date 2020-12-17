@@ -7,12 +7,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedAgenda from './SismedAgenda';
-import SismedExame from './SismedExame';
-import SismedFuncionarioTconvenio from './SismedFuncionarioTconvenio';
-import SismedLaboratorioTconvenio from './SismedLaboratorioTconvenio';
-import SismedPaciente from './SismedPaciente';
-import SismedConvenio from './SismedConvenio';
+import Agenda from './SismedAgenda';
+import Exame from './SismedExame';
+import FuncionarioTconvenio from './SismedFuncionarioTconvenio';
+import LaboratorioTconvenio from './SismedLaboratorioTconvenio';
+import Paciente from './SismedPaciente';
+import Convenio from './SismedConvenio';
 
 @Entity('sismed_tipo_convenio')
 export default class SismedTipoConvenio {
@@ -25,35 +25,35 @@ export default class SismedTipoConvenio {
   @Column('varchar', { name: 'nome', length: 45 })
   nome: string;
 
-  @OneToMany(() => SismedAgenda, (sismedAgenda) => sismedAgenda.tipoConvenio)
-  sismedAgenda: SismedAgenda[];
+  @OneToMany(() => Agenda, (Agenda) => Agenda.tipoConvenio)
+  Agenda: Agenda[];
 
-  @OneToMany(() => SismedExame, (sismedExame) => sismedExame.tipoConvenio)
-  sismedExames: SismedExame[];
-
-  @OneToMany(
-    () => SismedFuncionarioTconvenio,
-    (sismedFuncionarioTconvenio) => sismedFuncionarioTconvenio.tipoConvenio,
-  )
-  sismedFuncionarioTconvenios: SismedFuncionarioTconvenio[];
+  @OneToMany(() => Exame, (Exame) => Exame.tipoConvenio)
+  exames: Exame[];
 
   @OneToMany(
-    () => SismedLaboratorioTconvenio,
-    (sismedLaboratorioTconvenio) => sismedLaboratorioTconvenio.tipoConvenio,
+    () => FuncionarioTconvenio,
+    (FuncionarioTconvenio) => FuncionarioTconvenio.tipoConvenio,
   )
-  sismedLaboratorioTconvenios: SismedLaboratorioTconvenio[];
+  funcionarioTconvenios: FuncionarioTconvenio[];
 
   @OneToMany(
-    () => SismedPaciente,
-    (sismedPaciente) => sismedPaciente.tipoConvenio,
+    () => LaboratorioTconvenio,
+    (LaboratorioTconvenio) => LaboratorioTconvenio.tipoConvenio,
   )
-  sismedPacientes: SismedPaciente[];
+  laboratorioTconvenios: LaboratorioTconvenio[];
+
+  @OneToMany(
+    () => Paciente,
+    (Paciente) => Paciente.tipoConvenio,
+  )
+  pacientes: Paciente[];
 
   @ManyToOne(
-    () => SismedConvenio,
-    (sismedConvenio) => sismedConvenio.sismedTipoConvenios,
+    () => Convenio,
+    (Convenio) => Convenio.tipoConvenios,
     { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'convenio_id', referencedColumnName: 'id' }])
-  convenio: SismedConvenio;
+  convenio: Convenio;
 }

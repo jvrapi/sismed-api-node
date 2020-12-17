@@ -1,7 +1,7 @@
 import {
   Column, Entity, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedConvenio from './SismedConvenio';
+import Convenio from './SismedConvenio';
 
 @Entity('sismed_dados_bancarios', { schema: 'macmassc_sismed' })
 export default class SismedDadosBancarios {
@@ -18,8 +18,8 @@ export default class SismedDadosBancarios {
   conta: string;
 
   @OneToMany(
-    () => SismedConvenio,
-    (sismedConvenio) => sismedConvenio.dadosBancarios2,
+    () => Convenio,
+    (Convenio) => Convenio.dadosBancarios2,
   )
-  sismedConvenios: SismedConvenio[];
+  convenios: Convenio[];
 }
