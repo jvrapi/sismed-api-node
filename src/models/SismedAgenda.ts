@@ -13,7 +13,7 @@ import TipoConvenio from './SismedTipoConvenio';
 import Relatorio from './SismedRelatorio';
 import RegistroClinico from './SismedRegistroClinico';
 
-@Entity('sismed_agenda', { schema: 'macmassc_sismed' })
+@Entity('sismed_agenda')
 export default class SismedAgenda {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;

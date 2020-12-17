@@ -10,7 +10,7 @@ import Agenda from './SismedAgenda';
 import Relatorio from './SismedRelatorio';
 import Convenio from './SismedConvenio';
 
-@Entity('sismed_procedimento', { schema: 'macmassc_sismed' })
+@Entity('sismed_procedimento')
 export default class SismedProcedimento {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;

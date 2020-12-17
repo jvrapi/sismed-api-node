@@ -11,7 +11,7 @@ import Exame from './SismedExame';
 import Endereco from './SismedEndereco';
 import LaboratorioTconvenio from './SismedLaboratorioTconvenio';
 
-@Entity('sismed_laboratorio', { schema: 'macmassc_sismed' })
+@Entity('sismed_laboratorio')
 export default class SismedLaboratorio {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;

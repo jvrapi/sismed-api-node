@@ -10,7 +10,7 @@ import Paciente from './SismedPaciente';
 import Agenda from './SismedAgenda';
 import Funcionario from './SismedFuncionario';
 
-@Entity('sismed_registro_clinico', { schema: 'macmassc_sismed' })
+@Entity('sismed_registro_clinico')
 export default class SismedRegistroClinico {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;

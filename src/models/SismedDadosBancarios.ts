@@ -3,7 +3,7 @@ import {
 } from 'typeorm';
 import Convenio from './SismedConvenio';
 
-@Entity('sismed_dados_bancarios', { schema: 'macmassc_sismed' })
+@Entity('sismed_dados_bancarios')
 export default class SismedDadosBancarios {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;

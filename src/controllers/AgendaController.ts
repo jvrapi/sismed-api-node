@@ -75,7 +75,7 @@ export default {
       compareceu,
     };
     const agendamento = repository.create(dados)
-    repository.save(agendamento);
+    await repository.save(agendamento);
     return response.status(201).json(agendamento);
   },
 

@@ -14,7 +14,7 @@ import TipoConvenio from './SismedTipoConvenio';
 import Endereco from './SismedEndereco';
 import RegistroClinico from './SismedRegistroClinico';
 
-@Entity('sismed_paciente', { schema: 'macmassc_sismed' })
+@Entity('sismed_paciente')
 export default class SismedPaciente {
   @PrimaryGeneratedColumn({ type: 'int', name: 'prontuario' })
   prontuario: number;

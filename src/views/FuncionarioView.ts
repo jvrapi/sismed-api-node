@@ -32,11 +32,13 @@ export default {
       dataInicio: funcionario.dataInicio,
       dataTermino: funcionario.dataTermino,
       nacionalidade: funcionario.nacionalidade,
+      perfilId: funcionario.perfilId,
       endereco: {
         id: funcionario.endereco.id,
         cep: funcionario.endereco.cep,
         logradouro: funcionario.endereco.logradouro,
         numero: funcionario.endereco.numero,
+        complemento: funcionario.endereco.complemento,
         bairro: funcionario.endereco.bairro,
         cidade: funcionario.endereco.cidade,
         estado: funcionario.endereco.estado,

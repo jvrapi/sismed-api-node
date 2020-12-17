@@ -3,7 +3,7 @@ import {
 } from 'typeorm';
 import Funcionario from './SismedFuncionario';
 
-@Entity('sismed_perfil', { schema: 'macmassc_sismed' })
+@Entity('sismed_perfil')
 export default class SismedPerfil {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;

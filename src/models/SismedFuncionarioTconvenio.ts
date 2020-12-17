@@ -9,7 +9,7 @@ import {
 import Funcionario from './SismedFuncionario';
 import TipoConvenio from './SismedTipoConvenio';
 
-@Entity('sismed_funcionario_tconvenio', { schema: 'macmassc_sismed' })
+@Entity('sismed_funcionario_tconvenio')
 export default class SismedFuncionarioTconvenio {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;

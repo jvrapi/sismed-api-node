@@ -5,7 +5,7 @@ import Funcionario from './SismedFuncionario';
 import Laboratorio from './SismedLaboratorio';
 import Paciente from './SismedPaciente';
 
-@Entity('sismed_endereco', { schema: 'macmassc_sismed' })
+@Entity('sismed_endereco')
 export default class SismedEndereco {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;

@@ -8,6 +8,8 @@ import RegistroClinicoRotas from './registroClinico.routes';
 import RelatorioRotas from './relatorio.routes';
 import ConvenioRotas from './convenios.routes';
 import TipoConvenioRotas from './tiposConvenio.routes';
+import FuncionarioTConvenioRotas from './funcionarioTconvenio.routes';
+import LogRotas from './log.routes';
 import UserController from '../controllers/UserController';
 
 const Routers = Router();
@@ -20,6 +22,9 @@ Routers.use('/procedimento', AutenticacaoMiddleware, ProcedimentoRotas);
 Routers.use('/registroClinico', AutenticacaoMiddleware, RegistroClinicoRotas);
 Routers.use('/convenio', AutenticacaoMiddleware, ConvenioRotas);
 Routers.use('/tiposConvenio', AutenticacaoMiddleware, TipoConvenioRotas);
+Routers.use('/funcionarioTconvenio', AutenticacaoMiddleware, FuncionarioTConvenioRotas);
 Routers.use('/relatorio', AutenticacaoMiddleware, RelatorioRotas);
+Routers.use('/log', AutenticacaoMiddleware, LogRotas);
+
 
 export default Routers;

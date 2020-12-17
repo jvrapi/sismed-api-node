@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository, IsNull, Not, Like } from 'typeorm';
 import Funcionario from '../models/SismedFuncionario';
-import Convenio from '../models/SismedConvenio';
-import TipoConvenio from '../models/SismedTipoConvenio';
-import FuncionarioTipoConvenio from '../models/SismedFuncionarioTconvenio';
+
 
 import FuncionarioView from '../views/FuncionarioView';
 
@@ -15,6 +13,7 @@ export default {
   },
 
   async listarPorId(request: Request, response: Response) {
+
     const { id } = request.params;
     const repository = getRepository(Funcionario);
     const funcionario = await repository.findOne(
@@ -24,44 +23,21 @@ export default {
       }
     );
     if (funcionario) {
+
       return response.json(FuncionarioView.funcionario(funcionario));
 
     } else {
-      return response.json([])
+      return response.sendStatus(404);
     }
   },
 
   async medicos(request: Request, response: Response) {
+
     const repository = getRepository(Funcionario);
     const medicos = await repository.find({ crm: Not(IsNull()) });
     return response.json(FuncionarioView.medicos(medicos));
   },
 
-  async conveniosAceitos(request: Request, response: Response) {
-    const { id } = request.params;
-    const repository = getRepository(Convenio);
-    let convenios = await repository.createQueryBuilder('c')
-      .select(['c.id as id', 'c.nome as nome'])
-      .distinct(true)
-      .innerJoin(TipoConvenio, 'tc', 'tc.convenioId = c.id')
-      .innerJoin(FuncionarioTipoConvenio, 'ft', 'ft.tipoConvenioId = tc.id')
-      .innerJoin(Funcionario, 'f', 'ft.funcionarioId = f.id')
-      .where(`f.id = ${id} AND c.id <> 14`)
-      .getRawMany();
-    return response.json(convenios);
-  },
-
-  async tiposConvenioAceitos(request: Request, response: Response) {
-    const { funcionarioId, convenioId } = request.params;
-    const repository = getRepository(TipoConvenio);
-    const tiposConvenio = await repository.createQueryBuilder('tc')
-      .select(['tc.id as id', 'tc.nome as nome'])
-      .innerJoin(FuncionarioTipoConvenio, 'ft', 'ft.tipoConvenioId = tc.id')
-      .innerJoin(Funcionario, 'f', 'ft.funcionarioId = f.id')
-      .where(`f.id = ${funcionarioId} AND tc.convenio_id = ${convenioId}`)
-      .getRawMany();
-    return response.json(tiposConvenio);
-  },
 
   async listarPorNome(request: Request, response: Response) {
     const { nome } = request.params;
@@ -125,12 +101,14 @@ export default {
       sexo,
       estadoCivil,
       escolaridade,
-      profissao,
+      crm,
+      especialidade,
       recomendacao,
       tipoConvenio,
       carteiraConvenio,
       validade,
       situacao,
+      perfilId,
       endereco
     } = request.body;
     const repository = getRepository(Funcionario);
@@ -153,16 +131,29 @@ export default {
       sexo,
       estadoCivil,
       escolaridade,
-      profissao,
+      crm,
+      especialidade,
       recomendacao,
       tipoConvenio,
       carteiraConvenio,
       validade,
       situacao,
+      perfilId,
       endereco
-    };
+    }
     const funcionario = await repository.save(dados);
     return response.json(funcionario);
+  },
+
+  async excluir(request: Request, response: Response) {
+    const { id } = request.params;
+    const repository = getRepository(Funcionario);
+    try {
+      await repository.delete(id);
+      return response.status(200).json([]);
+    } catch {
+      return response.sendStatus(500).json({ messagem: 'Erro ao tentar excluir o funcionário' })
+    }
   }
 
 };

@@ -23,10 +23,10 @@ export default class SismedLog {
   hora: string;
 
   @Column('varchar', { name: 'descricao', nullable: true, length: 255 })
-  descricao: string | null;
+  descricao: string;
 
   @Column('varchar', { name: 'evento', nullable: true, length: 50 })
-  evento: string | null;
+  evento: string;
 
   @ManyToOne(
     () => Funcionario,

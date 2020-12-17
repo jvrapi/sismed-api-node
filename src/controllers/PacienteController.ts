@@ -208,7 +208,7 @@ export default {
       endereco
     }
 
-    const paciente = await repository.create(dados);
+    const paciente = repository.create(dados);
     await repository.save(paciente);
 
     return response.status(201).json(paciente)
@@ -221,7 +221,7 @@ export default {
       await repository.delete(prontuario);
       return response.status(200).json([]);
     } catch {
-      return response.sendStatus(500).json({ messagem: 'Erro ao tentar excluir o agendamento' })
+      return response.sendStatus(500).json({ messagem: 'Erro ao tentar excluir o paciente' })
     }
   },
 
