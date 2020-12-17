@@ -76,6 +76,7 @@ export default {
     return response.json(tiposNaoAceitos);
 
   },
+
   async salvar(request: Request, response: Response) {
     const funcionarioTConvenio: FuncionarioTipoConvenio[] = request.body;
     const repository = getRepository(FuncionarioTipoConvenio);
@@ -86,6 +87,21 @@ export default {
     }));
 
     response.status(201).json(resposta)
+  },
+
+  async excluir(request: Request, response: Response) {
+    const dados: FuncionarioTipoConvenio[] = request.body;
+    const repository = getRepository(FuncionarioTipoConvenio);
+    try {
+      dados.forEach(async funcTconvenio => {
+        await repository.delete({ funcionarioId: funcTconvenio.funcionarioId, tipoConvenioId: funcTconvenio.tipoConvenioId });
+      })
+      return response.json([]);
+    } catch {
+      return response.status(500);
+    }
+
+
   }
 }
 
