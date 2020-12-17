@@ -3,6 +3,6 @@ import RegistroClinicoController from '../controllers/RegistroClinicoController'
 const Routers = Router();
 
 
-Routers.post('/', RegistroClinicoController.salvar)
+Routers.post('/', RegistroClinicoController.salvar);
 
 export default Routers;

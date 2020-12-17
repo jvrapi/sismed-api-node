@@ -6,9 +6,9 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedPaciente from './SismedPaciente';
-import SismedAgenda from './SismedAgenda';
-import SismedFuncionario from './SismedFuncionario';
+import Paciente from './SismedPaciente';
+import Agenda from './SismedAgenda';
+import Funcionario from './SismedFuncionario';
 
 @Entity('sismed_registro_clinico', { schema: 'macmassc_sismed' })
 export default class SismedRegistroClinico {
@@ -34,26 +34,26 @@ export default class SismedRegistroClinico {
   pacienteId: number | null;
 
   @ManyToOne(
-    () => SismedPaciente,
-    (sismedPaciente) => sismedPaciente.sismedRegistroClinicos,
+    () => Paciente,
+    (Paciente) => Paciente.registroClinicos,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'paciente_id', referencedColumnName: 'prontuario' }])
-  paciente: SismedPaciente;
+  paciente: Paciente;
 
   @ManyToOne(
-    () => SismedAgenda,
-    (sismedAgenda) => sismedAgenda.sismedRegistroClinicos,
+    () => Agenda,
+    (Agenda) => Agenda.registroClinicos,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'agendamento_id', referencedColumnName: 'id' }])
-  agendamento: SismedAgenda;
+  agendamento: Agenda;
 
   @ManyToOne(
-    () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.registroClinicos,
+    () => Funcionario,
+    (Funcionario) => Funcionario.registroClinicos,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'funcionario_id', referencedColumnName: 'id' }])
-  funcionario: SismedFuncionario;
+  funcionario: Funcionario;
 }

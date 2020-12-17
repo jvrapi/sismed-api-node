@@ -6,9 +6,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedAgenda from './SismedAgenda';
-import SismedRelatorio from './SismedRelatorio';
-import SismedConvenio from './SismedConvenio';
+import Agenda from './SismedAgenda';
+import Relatorio from './SismedRelatorio';
+import Convenio from './SismedConvenio';
 
 @Entity('sismed_procedimento', { schema: 'macmassc_sismed' })
 export default class SismedProcedimento {
@@ -24,17 +24,17 @@ export default class SismedProcedimento {
   @Column('int', { name: 'convenio_id' })
   convenioId: number;
 
-  @OneToMany(() => SismedAgenda, (sismedAgenda) => sismedAgenda.procedimento)
-  sismedAgenda: SismedAgenda[];
+  @OneToMany(() => Agenda, (Agenda) => Agenda.procedimento)
+  agenda: Agenda[];
 
-  @OneToMany(() => SismedRelatorio, (sismedRelatorio) => sismedRelatorio.procedimento2)
-  sismedRelatorio: SismedRelatorio[];
+  @OneToMany(() => Relatorio, (Relatorio) => Relatorio.procedimento2)
+  relatorio: Relatorio[];
 
   @ManyToOne(
-    () => SismedConvenio,
-    (sismedConvenio) => sismedConvenio.sismedProcedimentos,
+    () => Convenio,
+    (Convenio) => Convenio.procedimentos,
     { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'convenio_id', referencedColumnName: 'id' }])
-  convenio: SismedConvenio;
+  convenio: Convenio;
 }

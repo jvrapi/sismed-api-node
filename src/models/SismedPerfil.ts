@@ -1,7 +1,7 @@
 import {
   Column, Entity, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedFuncionario from './SismedFuncionario';
+import Funcionario from './SismedFuncionario';
 
 @Entity('sismed_perfil', { schema: 'macmassc_sismed' })
 export default class SismedPerfil {
@@ -12,8 +12,8 @@ export default class SismedPerfil {
   descricao: string;
 
   @OneToMany(
-    () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.perfil,
+    () => Funcionario,
+    (Funcionario) => Funcionario.perfil,
   )
-  sismedFuncionarios: SismedFuncionario[];
+  funcionarios: Funcionario[];
 }

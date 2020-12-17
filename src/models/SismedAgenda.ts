@@ -7,12 +7,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedPaciente from './SismedPaciente';
-import SismedFuncionario from './SismedFuncionario';
-import SismedProcedimento from './SismedProcedimento';
-import SismedTipoConvenio from './SismedTipoConvenio';
-import SismedRelatorio from './SismedRelatorio';
-import SismedRegistroClinico from './SismedRegistroClinico';
+import Paciente from './SismedPaciente';
+import Funcionario from './SismedFuncionario';
+import Procedimento from './SismedProcedimento';
+import TipoConvenio from './SismedTipoConvenio';
+import Relatorio from './SismedRelatorio';
+import RegistroClinico from './SismedRegistroClinico';
 
 @Entity('sismed_agenda', { schema: 'macmassc_sismed' })
 export default class SismedAgenda {
@@ -53,43 +53,43 @@ export default class SismedAgenda {
   finalizado: number | null;
 
   @ManyToOne(
-    () => SismedPaciente,
-    (sismedPaciente) => sismedPaciente.sismedAgenda,
+    () => Paciente,
+    (Paciente) => Paciente.agenda,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'paciente_id', referencedColumnName: 'prontuario' }])
-  paciente: SismedPaciente;
+  paciente: Paciente;
 
   @ManyToOne(
-    () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.sismedAgenda,
+    () => Funcionario,
+    (Funcionario) => Funcionario.Agenda,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'funcionario_id', referencedColumnName: 'id' }])
-  funcionario: SismedFuncionario;
+  funcionario: Funcionario;
 
   @ManyToOne(
-    () => SismedProcedimento,
-    (sismedProcedimento) => sismedProcedimento.sismedAgenda,
+    () => Procedimento,
+    (Procedimento) => Procedimento.agenda,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'procedimento_id', referencedColumnName: 'id' }])
-  procedimento: SismedProcedimento;
+  procedimento: Procedimento;
 
   @ManyToOne(
-    () => SismedTipoConvenio,
-    (sismedTipoConvenio) => sismedTipoConvenio.sismedAgenda,
+    () => TipoConvenio,
+    (TipoConvenio) => TipoConvenio.Agenda,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'tipo_convenio_id', referencedColumnName: 'id' }])
-  tipoConvenio: SismedTipoConvenio;
+  tipoConvenio: TipoConvenio;
 
-  @OneToMany(() => SismedRelatorio, (sismedRelatorio) => sismedRelatorio.agendamento2)
-  sismedRelatorio: SismedRelatorio[];
+  @OneToMany(() => Relatorio, (Relatorio) => Relatorio.agendamento2)
+  relatorio: Relatorio[];
 
   @OneToMany(
-    () => SismedRegistroClinico,
-    (sismedRegistroClinico) => sismedRegistroClinico.agendamento,
+    () => RegistroClinico,
+    (RegistroClinico) => RegistroClinico.agendamento,
   )
-  sismedRegistroClinicos: SismedRegistroClinico[];
+  registroClinicos: RegistroClinico[];
 }

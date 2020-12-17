@@ -17,10 +17,18 @@ export default {
   async listarPorId(request: Request, response: Response) {
     const { id } = request.params;
     const repository = getRepository(Funcionario);
-    const funcionario = await repository.findOne({ id: parseInt(id) });
-    if (funcionario)
+    const funcionario = await repository.findOne(
+      {
+        where: { id },
+        relations: ['endereco']
+      }
+    );
+    if (funcionario) {
       return response.json(FuncionarioView.funcionario(funcionario));
 
+    } else {
+      return response.json([])
+    }
   },
 
   async medicos(request: Request, response: Response) {
@@ -96,5 +104,65 @@ export default {
     const funcionarios = await repository.find({ where: { especialidade: Like(`%${especialidade}%`) } });
     response.json(FuncionarioView.funcionarios(funcionarios))
   },
+
+  async atualizar(request: Request, response: Response) {
+    const {
+      id,
+      nome,
+      dataNascimento,
+      cpf,
+      rg,
+      orgaoEmissor,
+      dataEmissao,
+      dataInicio,
+      dataTermino,
+      naturalidade,
+      nacionalidade,
+      telefoneFixo,
+      telefoneTrabalho,
+      celular,
+      email,
+      sexo,
+      estadoCivil,
+      escolaridade,
+      profissao,
+      recomendacao,
+      tipoConvenio,
+      carteiraConvenio,
+      validade,
+      situacao,
+      endereco
+    } = request.body;
+    const repository = getRepository(Funcionario);
+    const dados = {
+      id,
+      nome,
+      dataNascimento,
+      cpf,
+      rg,
+      orgaoEmissor,
+      dataEmissao,
+      dataInicio,
+      dataTermino,
+      naturalidade,
+      nacionalidade,
+      telefoneFixo,
+      telefoneTrabalho,
+      celular,
+      email,
+      sexo,
+      estadoCivil,
+      escolaridade,
+      profissao,
+      recomendacao,
+      tipoConvenio,
+      carteiraConvenio,
+      validade,
+      situacao,
+      endereco
+    };
+    const funcionario = await repository.save(dados);
+    return response.json(funcionario);
+  }
 
 };

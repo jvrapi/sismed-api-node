@@ -16,19 +16,50 @@ export default {
       id: funcionario.id,
       nome: funcionario.nome,
       cpf: funcionario.cpf,
-
+      rg: funcionario.rg,
+      orgaoEmissor: funcionario.orgaoEmissor,
+      dataEmissao: funcionario.dataEmissao,
       crm: funcionario.crm,
       especialidade: funcionario.especialidade,
       telefoneFixo: funcionario.telefoneFixo,
       celular: funcionario.celular,
-
+      sexo: funcionario.sexo,
+      dataNascimento: funcionario.dataNascimento,
       email: funcionario.email,
-
+      estadoCivil: funcionario.estadoCivil,
+      escolaridade: funcionario.escolaridade,
+      naturalidade: funcionario.naturalidade,
+      dataInicio: funcionario.dataInicio,
+      dataTermino: funcionario.dataTermino,
+      nacionalidade: funcionario.nacionalidade,
+      endereco: {
+        id: funcionario.endereco.id,
+        cep: funcionario.endereco.cep,
+        logradouro: funcionario.endereco.logradouro,
+        numero: funcionario.endereco.numero,
+        bairro: funcionario.endereco.bairro,
+        cidade: funcionario.endereco.cidade,
+        estado: funcionario.endereco.estado,
+      }
     };
   },
 
   funcionarios(funcionario: Funcionario[]) {
-    return funcionario.map((func) => this.funcionario(func));
+    return funcionario.map((func) => (
+      {
+        id: func.id,
+        nome: func.nome,
+        cpf: func.cpf,
+
+        crm: func.crm,
+        especialidade: func.especialidade,
+        telefoneFixo: func.telefoneFixo,
+        celular: func.celular,
+
+        email: func.email,
+
+      }
+    ));
   },
 
   medicos(medicos: Funcionario[]) {

@@ -18,7 +18,7 @@ export default {
     const pacienteRepository = getRepository(Paciente);
     const paciente = await pacienteRepository.findOne(
       {
-        where: { prontuario: parseInt(prontuario) },
+        where: { prontuario: prontuario },
         relations:
           [
             'tipoConvenio',

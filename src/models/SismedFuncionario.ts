@@ -10,14 +10,14 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import bcrypt from 'bcryptjs';
-import SismedAgenda from './SismedAgenda';
-import SismedRelatorio from './SismedRelatorio';
-import SismedExame from './SismedExame';
-import SismedEndereco from './SismedEndereco';
-import SismedPerfil from './SismedPerfil';
-import SismedFuncionarioTconvenio from './SismedFuncionarioTconvenio';
-import SismedLog from './SismedLog';
-import SismedRegistroClinico from './SismedRegistroClinico';
+import Agenda from './SismedAgenda';
+import Relatorio from './SismedRelatorio';
+import Exame from './SismedExame';
+import Endereco from './SismedEndereco';
+import Perfil from './SismedPerfil';
+import FuncionarioTconvenio from './SismedFuncionarioTconvenio';
+import Log from './SismedLog';
+import RegistroClinico from './SismedRegistroClinico';
 
 @Entity('sismed_funcionario')
 export default class SismedFuncionario {
@@ -96,43 +96,43 @@ export default class SismedFuncionario {
     this.senha = bcrypt.hashSync(this.senha, 12);
   }
 
-  @OneToMany(() => SismedAgenda, (sismedAgenda) => sismedAgenda.funcionario)
-  sismedAgenda: SismedAgenda[];
+  @OneToMany(() => Agenda, (Agenda) => Agenda.funcionario)
+  Agenda: Agenda[];
 
-  @OneToMany(() => SismedRelatorio, (sismedRelatorio) => sismedRelatorio.funcionario2)
-  sismedRelatorio: SismedRelatorio[];
+  @OneToMany(() => Relatorio, (Relatorio) => Relatorio.funcionario2)
+  Relatorio: Relatorio[];
 
-  @OneToMany(() => SismedExame, (sismedExame) => sismedExame.funcionario)
-  sismedExames: SismedExame[];
+  @OneToMany(() => Exame, (Exame) => Exame.funcionario)
+  Exames: Exame[];
 
   @ManyToOne(
-    () => SismedEndereco,
-    (sismedEndereco) => sismedEndereco.sismedFuncionarios,
-    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
+    () => Endereco,
+    (Endereco) => Endereco.funcionarios,
+    { onDelete: 'CASCADE', onUpdate: 'CASCADE', cascade: true },
   )
   @JoinColumn([{ name: 'endereco_id', referencedColumnName: 'id' }])
-  endereco: SismedEndereco;
+  endereco: Endereco;
 
   @ManyToOne(
-    () => SismedPerfil,
-    (sismedPerfil) => sismedPerfil.sismedFuncionarios,
+    () => Perfil,
+    (Perfil) => Perfil.funcionarios,
     { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
   )
   @JoinColumn([{ name: 'perfil_id', referencedColumnName: 'id' }])
-  perfil: SismedPerfil;
+  perfil: Perfil;
 
   @OneToMany(
-    () => SismedFuncionarioTconvenio,
-    (sismedFuncionarioTconvenio) => sismedFuncionarioTconvenio.funcionario,
+    () => FuncionarioTconvenio,
+    (FuncionarioTconvenio) => FuncionarioTconvenio.funcionario,
   )
-  funcionarioTconvenios: SismedFuncionarioTconvenio[];
+  funcionarioTconvenios: FuncionarioTconvenio[];
 
-  @OneToMany(() => SismedLog, (sismedLog) => sismedLog.funcionario)
-  sismedLogs: SismedLog[];
+  @OneToMany(() => Log, (Log) => Log.funcionario)
+  Logs: Log[];
 
   @OneToMany(
-    () => SismedRegistroClinico,
-    (sismedRegistroClinico) => sismedRegistroClinico.funcionario,
+    () => RegistroClinico,
+    (RegistroClinico) => RegistroClinico.funcionario,
   )
-  registroClinicos: SismedRegistroClinico[];
+  registroClinicos: RegistroClinico[];
 }
