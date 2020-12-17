@@ -6,10 +6,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedPaciente from './SismedPaciente';
-import SismedTipoConvenio from './SismedTipoConvenio';
-import SismedFuncionario from './SismedFuncionario';
-import SismedLaboratorio from './SismedLaboratorio';
+import Paciente from './SismedPaciente';
+import TipoConvenio from './SismedTipoConvenio';
+import Funcionario from './SismedFuncionario';
+import Laboratorio from './SismedLaboratorio';
 
 @Entity('sismed_exame', { schema: 'macmassc_sismed' })
 export default class SismedExame {
@@ -55,34 +55,34 @@ export default class SismedExame {
   laboratorioId: number;
 
   @ManyToOne(
-    () => SismedPaciente,
-    (sismedPaciente) => sismedPaciente.sismedExames,
+    () => Paciente,
+    (Paciente) => Paciente.exames,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'paciente_id', referencedColumnName: 'prontuario' }])
-  paciente: SismedPaciente;
+  paciente: Paciente;
 
   @ManyToOne(
-    () => SismedTipoConvenio,
-    (sismedTipoConvenio) => sismedTipoConvenio.sismedExames,
+    () => TipoConvenio,
+    (TipoConvenio) => TipoConvenio.exames,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'tipo_convenio_id', referencedColumnName: 'id' }])
-  tipoConvenio: SismedTipoConvenio;
+  tipoConvenio: TipoConvenio;
 
   @ManyToOne(
-    () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.sismedExames,
+    () => Funcionario,
+    (Funcionario) => Funcionario.exames,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'funcionario_id', referencedColumnName: 'id' }])
-  funcionario: SismedFuncionario;
+  funcionario: Funcionario;
 
   @ManyToOne(
-    () => SismedLaboratorio,
-    (sismedLaboratorio) => sismedLaboratorio.sismedExames,
+    () => Laboratorio,
+    (Laboratorio) => Laboratorio.exames,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'laboratorio_id', referencedColumnName: 'id' }])
-  laboratorio: SismedLaboratorio;
+  laboratorio: Laboratorio;
 }

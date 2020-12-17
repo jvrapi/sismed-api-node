@@ -6,8 +6,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedFuncionario from './SismedFuncionario';
-import SismedTipoConvenio from './SismedTipoConvenio';
+import Funcionario from './SismedFuncionario';
+import TipoConvenio from './SismedTipoConvenio';
 
 @Entity('sismed_funcionario_tconvenio', { schema: 'macmassc_sismed' })
 export default class SismedFuncionarioTconvenio {
@@ -21,18 +21,18 @@ export default class SismedFuncionarioTconvenio {
   tipoConvenioId: number;
 
   @ManyToOne(
-    () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.funcionarioTconvenios,
+    () => Funcionario,
+    (Funcionario) => Funcionario.funcionarioTconvenios,
     { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'funcionario_id', referencedColumnName: 'id' }])
-  funcionario: SismedFuncionario;
+  funcionario: Funcionario;
 
   @ManyToOne(
-    () => SismedTipoConvenio,
-    (sismedTipoConvenio) => sismedTipoConvenio.sismedFuncionarioTconvenios,
+    () => TipoConvenio,
+    (TipoConvenio) => TipoConvenio.funcionarioTconvenios,
     { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'tipo_convenio_id', referencedColumnName: 'id' }])
-  tipoConvenio: SismedTipoConvenio;
+  tipoConvenio: TipoConvenio;
 }

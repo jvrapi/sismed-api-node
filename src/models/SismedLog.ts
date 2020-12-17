@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedFuncionario from './SismedFuncionario';
+import Funcionario from './SismedFuncionario';
 
 @Entity('sismed_log', { schema: 'macmassc_sismed' })
 export default class SismedLog {
@@ -29,10 +29,10 @@ export default class SismedLog {
   evento: string | null;
 
   @ManyToOne(
-    () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.sismedLogs,
+    () => Funcionario,
+    (Funcionario) => Funcionario.logs,
     { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'funcionario_id', referencedColumnName: 'id' }])
-  funcionario: SismedFuncionario;
+  funcionario: Funcionario;
 }

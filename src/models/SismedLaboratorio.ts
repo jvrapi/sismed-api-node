@@ -7,9 +7,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedExame from './SismedExame';
-import SismedEndereco from './SismedEndereco';
-import SismedLaboratorioTconvenio from './SismedLaboratorioTconvenio';
+import Exame from './SismedExame';
+import Endereco from './SismedEndereco';
+import LaboratorioTconvenio from './SismedLaboratorioTconvenio';
 
 @Entity('sismed_laboratorio', { schema: 'macmassc_sismed' })
 export default class SismedLaboratorio {
@@ -34,20 +34,20 @@ export default class SismedLaboratorio {
   @Column('int', { name: 'endereco_id' })
   enderecoId: number;
 
-  @OneToMany(() => SismedExame, (sismedExame) => sismedExame.laboratorio)
-  sismedExames: SismedExame[];
+  @OneToMany(() => Exame, (Exame) => Exame.laboratorio)
+  exames: Exame[];
 
   @ManyToOne(
-    () => SismedEndereco,
-    (sismedEndereco) => sismedEndereco.sismedLaboratorios,
+    () => Endereco,
+    (Endereco) => Endereco.laboratorios,
     { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'endereco_id', referencedColumnName: 'id' }])
-  endereco: SismedEndereco;
+  endereco: Endereco;
 
   @OneToMany(
-    () => SismedLaboratorioTconvenio,
-    (sismedLaboratorioTconvenio) => sismedLaboratorioTconvenio.laboratorio,
+    () => LaboratorioTconvenio,
+    (LaboratorioTconvenio) => LaboratorioTconvenio.laboratorio,
   )
-  sismedLaboratorioTconvenios: SismedLaboratorioTconvenio[];
+  LaboratorioTconvenios: LaboratorioTconvenio[];
 }

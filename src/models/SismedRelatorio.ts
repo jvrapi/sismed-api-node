@@ -6,11 +6,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import SismedConvenio from './SismedConvenio';
-import SismedPaciente from './SismedPaciente';
-import SismedFuncionario from './SismedFuncionario';
-import SismedProcedimento from './SismedProcedimento';
-import SismedAgenda from './SismedAgenda';
+import Convenio from './SismedConvenio';
+import Paciente from './SismedPaciente';
+import Funcionario from './SismedFuncionario';
+import Procedimento from './SismedProcedimento';
+import Agenda from './SismedAgenda';
 
 @Entity('sismed_relatorio')
 export default class SismedRelatorio {
@@ -42,41 +42,41 @@ export default class SismedRelatorio {
   agendamento: number;
 
   @ManyToOne(
-    () => SismedConvenio,
-    (sismedConvenio) => sismedConvenio.sismedRelatorio,
+    () => Convenio,
+    (Convenio) => Convenio.relatorio,
     { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
   )
   @JoinColumn([{ name: 'convenio', referencedColumnName: 'id' }])
-  convenio2: SismedConvenio;
+  convenio2: Convenio;
 
   @ManyToOne(
-    () => SismedPaciente,
-    (sismedPaciente) => sismedPaciente.SismedRelatorio,
+    () => Paciente,
+    (Paciente) => Paciente.relatorio,
     { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'paciente', referencedColumnName: 'prontuario' }])
-  paciente2: SismedPaciente;
+  paciente2: Paciente;
 
   @ManyToOne(
-    () => SismedFuncionario,
-    (sismedFuncionario) => sismedFuncionario.sismedRelatorio,
+    () => Funcionario,
+    (Funcionario) => Funcionario.relatorio,
     { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([{ name: 'funcionario', referencedColumnName: 'id' }])
-  funcionario2: SismedFuncionario;
+  funcionario2: Funcionario;
 
   @ManyToOne(
-    () => SismedProcedimento,
-    (sismedProcedimento) => sismedProcedimento.sismedRelatorio,
+    () => Procedimento,
+    (Procedimento) => Procedimento.relatorio,
     { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
   )
   @JoinColumn([{ name: 'procedimento', referencedColumnName: 'id' }])
-  procedimento2: SismedProcedimento;
+  procedimento2: Procedimento;
 
-  @ManyToOne(() => SismedAgenda, (sismedAgenda) => sismedAgenda.sismedRelatorio, {
+  @ManyToOne(() => Agenda, (Agenda) => Agenda.relatorio, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'agendamento', referencedColumnName: 'id' }])
-  agendamento2: SismedAgenda;
+  agendamento2: Agenda;
 }

@@ -100,10 +100,10 @@ export default class SismedFuncionario {
   Agenda: Agenda[];
 
   @OneToMany(() => Relatorio, (Relatorio) => Relatorio.funcionario2)
-  Relatorio: Relatorio[];
+  relatorio: Relatorio[];
 
   @OneToMany(() => Exame, (Exame) => Exame.funcionario)
-  Exames: Exame[];
+  exames: Exame[];
 
   @ManyToOne(
     () => Endereco,
@@ -128,7 +128,7 @@ export default class SismedFuncionario {
   funcionarioTconvenios: FuncionarioTconvenio[];
 
   @OneToMany(() => Log, (Log) => Log.funcionario)
-  Logs: Log[];
+  logs: Log[];
 
   @OneToMany(
     () => RegistroClinico,
