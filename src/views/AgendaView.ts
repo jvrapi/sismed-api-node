@@ -41,6 +41,7 @@ export default {
       procedimento: {
         id: agendamento.procedimento.id,
         nome: agendamento.procedimento.descricao,
+        valor: agendamento.procedimento.valor,
         convenio: {
           id: agendamento.procedimento.convenio.id,
           nome: agendamento.procedimento.convenio.nome
