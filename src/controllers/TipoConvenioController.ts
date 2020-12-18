@@ -26,7 +26,12 @@ export default {
 
       }
     );
-    return response.json(TipoConvenioView.tipoConvenio(tipoConvenio));
+    if (tipoConvenio) {
+      return response.json(TipoConvenioView.tipoConvenio(tipoConvenio));
+
+    } else {
+      return response.sendStatus(404)
+    }
   },
 
   async listarPorNome(request: Request, response: Response) {
