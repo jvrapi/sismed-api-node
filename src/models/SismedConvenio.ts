@@ -29,15 +29,15 @@ export default class SismedConvenio {
   registroAns: string | null;
 
   @Column('int', { name: 'dados_bancarios', nullable: true })
-  dadosBancarios: number | null;
+  dadosBancariosId: number | null;
 
   @ManyToOne(
     () => DadosBancarios,
     (DadosBancarios) => DadosBancarios.convenios,
-    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
+    { onDelete: 'CASCADE', onUpdate: 'CASCADE', cascade: true },
   )
   @JoinColumn([{ name: 'dados_bancarios', referencedColumnName: 'id' }])
-  dadosBancarios2: DadosBancarios;
+  dadosBancarios: DadosBancarios;
 
   @OneToMany(() => Relatorio, (Relatorio) => Relatorio.convenio2)
   relatorio: Relatorio[];

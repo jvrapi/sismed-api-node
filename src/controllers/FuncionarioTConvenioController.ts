@@ -94,7 +94,12 @@ export default {
     const repository = getRepository(FuncionarioTipoConvenio);
     try {
       dados.forEach(async funcTconvenio => {
-        await repository.delete({ funcionarioId: funcTconvenio.funcionarioId, tipoConvenioId: funcTconvenio.tipoConvenioId });
+        await repository.delete(
+          {
+            funcionarioId: funcTconvenio.funcionarioId,
+            tipoConvenioId: funcTconvenio.tipoConvenioId
+          }
+        );
       })
       return response.json([]);
     } catch {
