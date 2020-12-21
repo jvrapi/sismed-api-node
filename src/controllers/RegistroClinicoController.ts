@@ -58,5 +58,41 @@ export default {
       }
     );
     return response.json(RegistroClinicoView.listar(registros));
+  },
+
+  async listarPorNome(request: Request, response: Response) {
+    const { nome } = request.params;
+    const repository = getRepository(RegistroClinico);
+    const registros = await repository.createQueryBuilder('rc')
+      .select(['p.prontuario as prontuario', 'p.nome as nome', 'rc.data as data', 'rc.hora as hora', 'COUNT(rc.id) AS quantidade'])
+      .innerJoin(Paciente, 'p', 'rc.pacienteId = p.prontuario')
+      .where(`p.nome LIKE '%${nome}%'`)
+      .groupBy('p.nome')
+      .getRawMany()
+    return response.json(registros)
+  },
+
+  async listarPorProntuario(request: Request, response: Response) {
+    const { prontuario } = request.params;
+    const repository = getRepository(RegistroClinico);
+    const registros = await repository.createQueryBuilder('rc')
+      .select(['p.prontuario as prontuario', 'p.nome as nome', 'rc.data as data', 'rc.hora as hora', 'COUNT(rc.id) AS quantidade'])
+      .innerJoin(Paciente, 'p', 'rc.pacienteId = p.prontuario')
+      .where(`p.prontuario = ${prontuario} `)
+      .groupBy('p.nome')
+      .getRawMany()
+    return response.json(registros)
+  },
+
+  async listarPorData(request: Request, response: Response) {
+    const { data } = request.params;
+    const repository = getRepository(RegistroClinico);
+    const registros = await repository.createQueryBuilder('rc')
+      .select(['p.prontuario as prontuario', 'p.nome as nome', 'rc.data as data', 'rc.hora as hora', 'COUNT(rc.id) AS quantidade'])
+      .innerJoin(Paciente, 'p', 'rc.pacienteId = p.prontuario')
+      .where(`rc.data = '${data}' `)
+      .groupBy('p.nome')
+      .getRawMany()
+    return response.json(registros)
   }
 }
