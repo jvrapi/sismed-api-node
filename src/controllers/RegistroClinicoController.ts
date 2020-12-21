@@ -19,6 +19,29 @@ export default {
     return response.json(registros);
   },
 
+  async listarPorId(request: Request, response: Response) {
+    const { id } = request.params;
+    const repository = getRepository(RegistroClinico);
+    const registro = await repository.findOne(
+      {
+        where: { id },
+        relations:
+          [
+            'funcionario',
+            'agendamento',
+            'paciente',
+            'paciente.tipoConvenio',
+            'paciente.tipoConvenio.convenio'
+          ]
+      }
+    );
+    if (registro) {
+      return response.json(RegistroClinicoView.detalhes(registro));
+    } else {
+      return response.status(404).json([])
+    }
+  },
+
   async salvar(request: Request, response: Response) {
     const {
       data,
@@ -43,6 +66,42 @@ export default {
 
   },
 
+  async atualizar(request: Request, response: Response) {
+    const {
+      id,
+      data,
+      hora,
+      descricao,
+      funcionarioId,
+      agendamentoId,
+      pacienteId
+    } = request.body;
+    const repository = getRepository(RegistroClinico);
+    const dados = {
+      id,
+      data,
+      hora,
+      descricao,
+      funcionarioId,
+      agendamentoId,
+      pacienteId
+    }
+    const registroClinico = await repository.save(dados)
+    return response.json(registroClinico);
+
+  },
+
+  async excluir(request: Request, response: Response) {
+    const { id } = request.params;
+    const repository = getRepository(RegistroClinico);
+    try {
+      await repository.delete(id)
+      return response.json([])
+    } catch {
+      return response.status(500).json({ messagem: 'Não foi possivel excluir o registro clínico' })
+    }
+  },
+
   async listarPorPaciente(request: Request, response: Response) {
     const { prontuario, medicoId } = request.params;
     const repository = getRepository(RegistroClinico);
@@ -54,7 +113,7 @@ export default {
           funcionarioId: medicoId
         },
         relations: ['paciente', 'funcionario'],
-        order: { data: 'ASC', hora: 'ASC' }
+        order: { data: 'DESC', hora: 'DESC' }
       }
     );
     return response.json(RegistroClinicoView.listar(registros));
