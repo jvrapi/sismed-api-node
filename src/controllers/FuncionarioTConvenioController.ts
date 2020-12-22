@@ -6,6 +6,7 @@ import { getRepository } from 'typeorm';
 import FuncionarioTipoConvenio from '../models/SismedFuncionarioTconvenio';
 
 export default {
+
   async conveniosAceitos(request: Request, response: Response) {
     const { id } = request.params;
     const repository = getRepository(Convenio);
@@ -103,7 +104,8 @@ export default {
       })
       return response.json([]);
     } catch {
-      return response.status(500);
+      return response.sendStatus(500);
+
     }
 
 

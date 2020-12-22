@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { getRepository, Like } from 'typeorm';
 import Endereco from '../models/SismedEndereco';
 import Laboratorio from '../models/SismedLaboratorio';
+
 import LaboratorioView from '../views/LaboratorioView';
 
 interface Lab {
@@ -85,6 +86,8 @@ export default {
 
     return response.json(LaboratorioView.listar(laboratorios))
   },
+
+
   async salvar(request: Request, response: Response) {
     const {
       nome,
@@ -107,6 +110,7 @@ export default {
     await repository.save(laboratorio);
     return response.status(201).json(laboratorio);
   },
+
   async atualizar(request: Request, response: Response) {
     const {
       id,
@@ -130,6 +134,7 @@ export default {
     const laboratorio = await repository.save(dados);
     return response.json(laboratorio);
   },
+
   async excluir(request: Request, response: Response) {
     const { id } = request.params;
     const repository = getRepository(Laboratorio);
@@ -141,4 +146,7 @@ export default {
     }
   },
 
+
+
 }
+

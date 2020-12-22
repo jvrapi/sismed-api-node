@@ -39,7 +39,7 @@ export default class SismedLaboratorio {
   @ManyToOne(
     () => Endereco,
     (Endereco) => Endereco.laboratorios,
-    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
+    { onDelete: 'CASCADE', onUpdate: 'CASCADE', cascade: true },
   )
   @JoinColumn([{ name: 'endereco_id', referencedColumnName: 'id' }])
   endereco: Endereco;
