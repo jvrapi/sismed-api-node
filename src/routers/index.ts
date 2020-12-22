@@ -10,6 +10,7 @@ import ConvenioRotas from './convenios.routes';
 import TipoConvenioRotas from './tiposConvenio.routes';
 import FuncionarioTConvenioRotas from './funcionarioTconvenio.routes';
 import LogRotas from './log.routes';
+import LaboratorioRotas from './laboratorio.routes';
 import UserController from '../controllers/UserController';
 
 const Routers = Router();
@@ -24,6 +25,7 @@ Routers.use('/convenio', AutenticacaoMiddleware, ConvenioRotas);
 Routers.use('/tiposConvenio', AutenticacaoMiddleware, TipoConvenioRotas);
 Routers.use('/funcionarioTconvenio', AutenticacaoMiddleware, FuncionarioTConvenioRotas);
 Routers.use('/relatorio', AutenticacaoMiddleware, RelatorioRotas);
+Routers.use('/laboratorio', AutenticacaoMiddleware, LaboratorioRotas);
 Routers.use('/log', AutenticacaoMiddleware, LogRotas);
 
 
