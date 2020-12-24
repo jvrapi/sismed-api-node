@@ -4,6 +4,13 @@ import LaboratorioTipoConvenio from '../models/SismedLaboratorioTconvenio';
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
+interface TodosOsTipos {
+  id: number;
+  nome: string;
+  convenioId: number;
+  convenioNome: string;
+}
+
 export default {
 
   async listarConveniosAceitos(request: Request, response: Response) {
@@ -68,6 +75,38 @@ export default {
       .getRawMany()
     return response.json(tiposNaoAceitos)
   },
+  async listarTodosOsTipos(request: Request, response: Response) {
+    const { laboratorioId } = request.params
+    const repository = getRepository(Convenio);
+    let todosOsTipos = await repository.createQueryBuilder('c')
+      .select(
+        [
+          'tc.id as id',
+          'tc.nome as nome',
+          'c.id as convenioId',
+          'c.nome as convenioNome'
+        ]
+      )
+      .innerJoin(TipoConvenio, 'tc', 'tc.convenioId = c.id')
+      .innerJoin(LaboratorioTipoConvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
+      .where(`ltc.laboratorioId = ${laboratorioId}`)
+      .orderBy('c.nome')
+      .getRawMany();
+
+    todosOsTipos = todosOsTipos.map((tipos: TodosOsTipos) => {
+      return {
+        id: tipos.id,
+        nome: tipos.nome,
+        convenio: {
+          id: tipos.convenioId,
+          nome: tipos.convenioNome
+        }
+      }
+    });
+
+    return response.json(todosOsTipos)
+  },
+
 
   async salvar(request: Request, response: Response) {
     const laboratorioTConvenio: LaboratorioTipoConvenio[] = request.body;

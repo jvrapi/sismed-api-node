@@ -19,7 +19,7 @@ export default class SismedDadosBancarios {
 
   @OneToMany(
     () => Convenio,
-    (Convenio) => Convenio.dadosBancarios2,
+    (Convenio) => Convenio.dadosBancarios,
   )
   convenios: Convenio[];
 }

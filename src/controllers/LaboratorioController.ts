@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { getRepository, Like } from 'typeorm';
 import Endereco from '../models/SismedEndereco';
 import Laboratorio from '../models/SismedLaboratorio';
+import LaboratorioTconvenio from '../models/SismedLaboratorioTconvenio';
 
 import LaboratorioView from '../views/LaboratorioView';
 
@@ -21,6 +22,7 @@ export default {
     const laboratorios = await repository.find({ relations: ['endereco'] });
     return response.json(LaboratorioView.listar(laboratorios))
   },
+
   async listarPorId(request: Request, response: Response) {
     const { id } = request.params;
     const repository = getRepository(Laboratorio);
@@ -32,6 +34,7 @@ export default {
     );
     return response.json(laboratorio)
   },
+
   async listarPorNome(request: Request, response: Response) {
     const { nome } = request.params;
     const repository = getRepository(Laboratorio);
@@ -43,6 +46,7 @@ export default {
     );
     return response.json(LaboratorioView.listar(laboratorios))
   },
+
   async listarPorTelefone(request: Request, response: Response) {
     const { telefone } = request.params;
     const repository = getRepository(Laboratorio);
@@ -54,21 +58,24 @@ export default {
     );
     return response.json(LaboratorioView.listar(laboratorios))
   },
+
   async listarPorBairro(request: Request, response: Response) {
     const { bairro } = request.params;
     const repository = getRepository(Laboratorio);
     let laboratorios = await repository.createQueryBuilder('l')
       .select(
-        ['l.id as id',
+        [
+          'l.id as id',
           'l.nome as nome',
           'l.responsavel as responsavel',
           'l.telefoneFixo as telefoneFixo',
           'e.bairro as bairro',
-          'e.cidade as cidade']
+          'e.cidade as cidade'
+        ]
       )
       .innerJoin(Endereco, 'e', 'e.id = l.enderecoId')
       .where(`e.bairro LIKE '%${bairro}%'`)
-      .getRawMany()
+      .getRawMany();
 
     laboratorios = laboratorios.map((laboratorio: Lab) => {
       return {
@@ -86,6 +93,19 @@ export default {
 
     return response.json(LaboratorioView.listar(laboratorios))
   },
+
+  async listarPorTipoConvenio(request: Request, response: Response) {
+    const { tipoConvenio } = request.params;
+    const repository = getRepository(Laboratorio);
+    let laboratorios = await repository.createQueryBuilder('l')
+      .select(['l.id as id', 'l.nome as nome'])
+      .innerJoin(LaboratorioTconvenio, 'ltc', 'ltc.laboratorioId = l.id')
+      .where(`ltc.tipoConvenioId = ${tipoConvenio}`)
+      .getRawMany();
+
+    return response.json(laboratorios)
+  },
+
 
 
   async salvar(request: Request, response: Response) {
@@ -105,6 +125,7 @@ export default {
       email,
       endereco
     }
+    console.log(dados)
     const repository = getRepository(Laboratorio);
     const laboratorio = repository.create(dados);
     await repository.save(laboratorio);
