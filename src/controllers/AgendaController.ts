@@ -79,6 +79,44 @@ export default {
     return response.status(201).json(agendamento);
   },
 
+  async preCadastro(request: Request, response: Response) {
+    const {
+      agenda,
+      paciente
+    } = request.body;
+    const repository = getRepository(Agenda);
+
+    const hasAgendamento = await repository.find(
+      {
+        where:
+        {
+          data: agenda.data, hora: agenda.hora, funcionarioId: parseInt(agenda.funcionario)
+        }
+      },
+    );
+    if (hasAgendamento.length > 0) {
+      return response.status(409).json({ messagem: 'Médico já possui agendamento para data e hora informados' });
+    }
+
+    const dados = {
+      data: agenda.data,
+      hora: agenda.hora,
+      compareceu: agenda.compareceu,
+      pagou: agenda.pagou,
+      primeiVez: agenda.primeiraVez,
+      funcionarioId: agenda.funcionario,
+      procedimentoId: agenda.procedimento,
+      tipoConvenioId: agenda.tipoConvenio,
+      paciente
+    }
+    const agendamento = repository.create(dados)
+
+
+    await repository.save(agendamento);
+    return response.status(201).json(agendamento);
+
+  },
+
   async atualizar(request: Request, response: Response) {
 
     const {

@@ -54,7 +54,7 @@ export default class SismedAgenda {
   @ManyToOne(
     () => Paciente,
     (Paciente) => Paciente.agenda,
-    { onDelete: 'RESTRICT', onUpdate: 'CASCADE' },
+    { onDelete: 'RESTRICT', onUpdate: 'CASCADE', cascade: true },
   )
   @JoinColumn([{ name: 'paciente_id', referencedColumnName: 'prontuario' }])
   paciente: Paciente;

@@ -7,6 +7,7 @@ const Routers = Router();
 Routers.get('/:id/', AgendaController.listarTodos);
 Routers.get('/:id/:data', AgendaController.listarPorData);
 Routers.post('/', AgendaController.agendar);
+Routers.post('/preCadastro', AgendaController.preCadastro);
 Routers.put('/', AgendaController.atualizar);
 Routers.get('/paciente/ultimoAgendamento/:prontuario', AgendaController.ultimoAgendamento);
 Routers.get('/agendamento/detalhes/:id', AgendaController.listarPorId);

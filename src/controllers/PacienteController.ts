@@ -2,7 +2,10 @@ import { Request, Response } from 'express';
 import { getRepository, Like } from 'typeorm';
 import Paciente from '../models/SismedPaciente';
 import PacienteView from '../views/PacienteView';
+import { getManager } from 'typeorm';
+
 export default {
+
   async listarTodos(request: Request, response: Response) {
     const patientRepository = getRepository(Paciente);
     const pacientes = await patientRepository.find({
@@ -160,6 +163,7 @@ export default {
     return response.json(paciente)
 
   },
+
   async salvar(request: Request, response: Response) {
 
     const {
@@ -218,6 +222,7 @@ export default {
 
     return response.status(201).json(paciente)
   },
+
   async excluir(request: Request, response: Response) {
 
     const { prontuario } = request.params;
@@ -229,6 +234,15 @@ export default {
       return response.sendStatus(500).json({ messagem: 'Erro ao tentar excluir o paciente' })
     }
   },
+
+  async proximoProntuario(request: Request, response: Response) {
+    const entityManager = getManager();
+    const prontuario = await entityManager.query(
+      `SELECT AUTO_INCREMENT AS proximoProntuario FROM information_schema.tables `
+      + `WHERE table_name = 'sismed_paciente' AND table_schema = 'macmassc_sismed'`
+    );
+    return response.json(prontuario[0]);
+  }
 
 };
 
