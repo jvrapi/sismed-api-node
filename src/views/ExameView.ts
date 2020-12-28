@@ -1,5 +1,15 @@
 import Exame from '../models/SismedExame';
 
+interface ExamePesquisa {
+  id: number,
+  nome: string,
+  data_coleta: string,
+  data_envio: string,
+  data_retorno: string,
+  pacienteNome: string
+
+}
+
 export default {
   listar(exames: Exame[]) {
     return exames.map(exame => {
@@ -15,6 +25,23 @@ export default {
       }
     })
   },
+
+  pesquisa(pesquisaExames: ExamePesquisa[]) {
+    return pesquisaExames.map(exame => {
+      return {
+        id: exame.id,
+        nome: exame.nome,
+        dataColeta: exame.data_coleta,
+        dataEnvio: exame.data_envio,
+        dataRetorno: exame.data_retorno,
+        paciente: {
+          nome: exame.pacienteNome
+        }
+      }
+    })
+
+  },
+
   detalhes(exame: Exame) {
     return {
       id: exame.id,

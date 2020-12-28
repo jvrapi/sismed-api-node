@@ -36,6 +36,38 @@ export default {
     }
   },
 
+  async pesquisa(request: Request, response: Response) {
+    const { pacienteNome, exame, dataColeta } = request.query;
+    const repository = getRepository(Exame);
+    let queryString = 'SELECT e.id, e.nome, e.data_coleta, e.data_envio, e.data_retorno,p.nome as pacienteNome'
+      + ' FROM sismed_exame e INNER JOIN sismed_paciente p ON e.paciente_id = p.prontuario '
+      + 'WHERE ';
+
+    if (pacienteNome) {
+      queryString += `p.nome LIKE '%${pacienteNome}%' `;
+    }
+    if (exame) {
+      if (pacienteNome || dataColeta) {
+        queryString += `AND e.nome LIKE '%${exame}%' `;
+      } else {
+        queryString += `e.nome LIKE '%${exame}%' `;
+
+      }
+    }
+    if (dataColeta) {
+      if (pacienteNome || exame) {
+        queryString += `AND e.data_coleta = '${dataColeta}' `;
+      } else {
+        queryString += `e.data_coleta = '${dataColeta}' `;
+
+      }
+    }
+
+    const exames = await repository.query(queryString);
+
+    return response.json(ExameView.pesquisa(exames));
+  },
+
   async salvar(request: Request, response: Response) {
     const {
       nome,
