@@ -37,7 +37,8 @@ export default {
     const paciente = await pacienteRepository.find(
       {
         where: { prontuario: prontuario },
-        relations: ['tipoConvenio', 'tipoConvenio.convenio']
+        relations: ['tipoConvenio', 'tipoConvenio.convenio'],
+        take: 50
       },
     );
 
@@ -50,7 +51,8 @@ export default {
     const pacientes = await repository.find(
       {
         where: { nome: Like(`%${nome}%`) },
-        relations: ['tipoConvenio', 'tipoConvenio.convenio']
+        relations: ['tipoConvenio', 'tipoConvenio.convenio'],
+        take: 50
       }
     );
     return response.json(PacienteView.listar(pacientes));
@@ -62,7 +64,8 @@ export default {
     const pacientes = await repository.find(
       {
         where: { cpf: Like(`%${cpf}%`) },
-        relations: ['tipoConvenio', 'tipoConvenio.convenio']
+        relations: ['tipoConvenio', 'tipoConvenio.convenio'],
+        take: 50
       }
     );
     return response.json(PacienteView.listar(pacientes));
@@ -74,7 +77,8 @@ export default {
     const pacientes = await repository.find(
       {
         where: { celular: Like(`%${celular}%`) },
-        relations: ['tipoConvenio', 'tipoConvenio.convenio']
+        relations: ['tipoConvenio', 'tipoConvenio.convenio'],
+        take: 50
       }
     );
     return response.json(PacienteView.listar(pacientes));
@@ -90,7 +94,8 @@ export default {
             { telefoneFixo: Like(`%${telefone}%`) },
             { telefoneTrabalho: Like(`%${telefone}%`) }
           ],
-        relations: ['tipoConvenio', 'tipoConvenio.convenio']
+        relations: ['tipoConvenio', 'tipoConvenio.convenio'],
+        take: 50
       }
     );
     return response.json(PacienteView.listar(pacientes));
