@@ -3,6 +3,7 @@ import { getRepository, Like } from 'typeorm';
 import Paciente from '../models/SismedPaciente';
 import PacienteView from '../views/PacienteView';
 import { getManager } from 'typeorm';
+import LogController from './LogController';
 
 export default {
 
@@ -227,6 +228,8 @@ export default {
 
     const { prontuario } = request.params;
     const repository = getRepository(Paciente);
+    const paciente = await repository.findOne(prontuario);
+    await LogController.salvar(request.userId, 'EXCLUSÃO', `EXCLUSÃO DO PACIENTE ${paciente?.nome} `);
     try {
       await repository.delete(prontuario);
       return response.status(200).json([]);

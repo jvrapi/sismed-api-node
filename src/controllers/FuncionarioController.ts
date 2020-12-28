@@ -1,11 +1,14 @@
 import { Request, Response } from 'express';
 import { getRepository, IsNull, Not, Like } from 'typeorm';
+import { formatarData } from '../functions';
 import Funcionario from '../models/SismedFuncionario';
 
 
 import FuncionarioView from '../views/FuncionarioView';
+import LogController from './LogController';
 
 export default {
+
   async listarTodos(request: Request, response: Response) {
     const repository = getRepository(Funcionario);
     const funcionarios = await repository.find();
@@ -37,7 +40,6 @@ export default {
     const medicos = await repository.find({ crm: Not(IsNull()) });
     return response.json(FuncionarioView.medicos(medicos));
   },
-
 
   async listarPorNome(request: Request, response: Response) {
     const { nome } = request.params;
@@ -141,6 +143,32 @@ export default {
       perfilId,
       endereco
     }
+    const funcionarioBD = await repository.findOne(id);
+    if (funcionarioBD?.dataInicio !== dataInicio) {
+      await LogController.salvar(
+        request.userId,
+        'EDIÇÃO',
+        `ALTERAÇÃO NA DATA DE CONTRATAÇÃO DO FUNCIONARIO ${funcionarioBD?.nome}. DA DATA ${formatarData(funcionarioBD?.dataInicio || '')}`
+        + ` PARA A DATA ${formatarData(dataInicio)}`
+      );
+    }
+    if (funcionarioBD?.dataTermino !== dataTermino) {
+      if (funcionarioBD?.dataTermino) {
+        await LogController.salvar(
+          request.userId,
+          'EDIÇÃO',
+          `ALTERAÇÃO NA DATA DE DISPENSA DO FUNCIONARIO ${funcionarioBD?.nome}. DA DATA ${formatarData(funcionarioBD?.dataTermino || '')}`
+          + ` PARA A DATA ${formatarData(dataTermino)}`
+        );
+      } else {
+        await LogController.salvar(
+          request.userId,
+          'EDIÇÃO',
+          `ALTERAÇÃO NA DATA DE DISPENSA DO FUNCIONARIO ${funcionarioBD?.nome}. DE DATA DE DISPENSA NÃO CADASTRADA`
+          + ` PARA A DATA ${formatarData(dataTermino)}`
+        );
+      }
+    }
     const funcionario = await repository.save(dados);
     return response.json(funcionario);
   },
@@ -148,6 +176,8 @@ export default {
   async excluir(request: Request, response: Response) {
     const { id } = request.params;
     const repository = getRepository(Funcionario);
+    const funcionario = await repository.findOne(id);
+    await LogController.salvar(request.userId, 'EXCLUSÃO', `EXCLUSÃO DO FUNCIONÁRIO ${funcionario?.nome}`);
     try {
       await repository.delete(id);
       return response.status(200).json([]);

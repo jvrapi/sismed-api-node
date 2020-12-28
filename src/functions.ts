@@ -68,3 +68,43 @@ export function MedicalProcedure(codConvenio: number): number {
   }
   return response;
 }
+
+export function formatarData(date: string): string {
+  const arrayDate = date.split('-');
+  return arrayDate[2] + '/' + arrayDate[1] + '/' + arrayDate[0];
+}
+
+
+export const hora = () => {
+  const todayDate = new Date();
+  let hora;
+  let minutos;
+  let seconds;
+  if (todayDate.getHours() < 10) {
+    hora = '0' + todayDate.getHours();
+  } else {
+    hora = todayDate.getHours();
+  }
+  if (todayDate.getMinutes() < 10) {
+    minutos = '0' + todayDate.getMinutes();
+  } else {
+    minutos = todayDate.getMinutes();
+  }
+  if (todayDate.getSeconds() < 10) {
+    seconds = '0' + todayDate.getSeconds();
+  } else {
+    seconds = todayDate.getSeconds();
+  }
+  return hora + ':' + minutos + ':' + seconds;
+}
+
+export const data = () => {
+  const todayDate = new Date();
+  const todayArray = todayDate.toLocaleDateString().split('/');
+
+  var todayYear = todayArray[2];
+  var todayMonth = todayArray[1];
+  var todayDay = todayArray[0];
+
+  return todayYear + '-' + todayMonth + '-' + todayDay;
+}

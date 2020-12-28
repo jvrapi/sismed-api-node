@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import Exame from '../models/SismedExame';
 import ExameView from '../views/ExameView';
+import LogController from './LogController';
+import { formatarData } from '../functions'
 
 export default {
 
@@ -106,6 +108,7 @@ export default {
       descricao,
       dataColeta,
       dataEnvio,
+      dataRetorno,
       funcionarioLaboratorio,
       valor,
       tipoConvenioId,
@@ -113,12 +116,55 @@ export default {
       funcionarioId,
       laboratorioId
     } = request.body;
+    const repository = getRepository(Exame);
+    const exameBD = await repository.findOne({ where: { id }, relations: ['paciente'] });
+
+    if (dataRetorno) {
+
+
+      if (exameBD?.dataRetorno !== null && exameBD?.dataRetorno !== dataRetorno) {
+        await LogController.salvar(request.userId, 'EDIÇÃO',
+          `ALTERAÇÃO NA DATA DE RETORNO DO EXAME ${exameBD?.nome} DO PACIENTE ${exameBD?.paciente.nome}. `
+          + `DA DATA ${formatarData(exameBD?.dataRetorno || '')} PARA A DATA ${formatarData(dataRetorno)}`
+        );
+      } else if (!exameBD?.dataRetorno) {
+
+        await LogController.salvar(request.userId, 'EDIÇÃO',
+          `ALTERAÇÃO NA DATA DE RETORNO DO EXAME ${exameBD?.nome} DO PACIENTE ${exameBD?.paciente.nome}. `
+          + `DE RETORNO PENDENTE PARA A DATA ${formatarData(dataRetorno)}`
+        );
+      }
+    } else {
+      if (exameBD?.dataRetorno) {
+        await LogController.salvar(request.userId, 'EDIÇÃO',
+          `ALTERAÇÃO NA DATA DE RETORNO DO EXAME ${exameBD?.nome} DO PACIENTE ${exameBD?.paciente.nome}. `
+          + `DA DATA ${formatarData(exameBD?.dataRetorno)} PARA RETORNO PENDENTE`
+        );
+      }
+    }
+
+    if (exameBD?.dataEnvio !== dataEnvio) {
+      await LogController.salvar(request.userId, 'EDIÇÃO',
+        `ALTERAÇÃO NA DATA DE ENVÍO DO EXAME ${exameBD?.nome} DO PACIENTE ${exameBD?.paciente.nome}. `
+        + `DA DATA ${formatarData(exameBD?.dataEnvio || '')} PARA A DATA ${formatarData(dataEnvio)}`
+      );
+    }
+
+    if (exameBD?.dataColeta !== dataColeta) {
+      await LogController.salvar(request.userId, 'EDIÇÃO',
+        `ALTERAÇÃO NA DATA DE COLETA DO EXAME ${exameBD?.nome} DO PACIENTE ${exameBD?.paciente.nome}. `
+        + `DA DATA ${formatarData(exameBD?.dataColeta || '')} PARA A DATA ${formatarData(dataColeta)}`
+      );
+    }
+
+
     const dados = {
       id,
       nome,
       descricao,
       dataColeta,
       dataEnvio,
+      dataRetorno,
       funcionarioLaboratorio,
       valor,
       tipoConvenioId,
@@ -126,15 +172,17 @@ export default {
       funcionarioId,
       laboratorioId
     };
-    const repository = getRepository(Exame);
+
     const exame = repository.create(dados);
     await repository.save(exame);
-    return response.status(201).json(exame);
+    return response.json(exame);
   },
 
   async excluir(request: Request, response: Response) {
     const { id } = request.params;
     const repository = getRepository(Exame);
+    const exame = await repository.findOne({ where: { id }, relations: ['paciente'] });
+    await LogController.salvar(request.userId, 'EXCLUSÃO', `EXCLUSÃO DO EXAME ${exame?.nome} DO PACIENTE ${exame?.paciente.nome}`)
     try {
       await repository.delete(id)
       return response.json([]);

@@ -1,23 +1,17 @@
-import { Request, Response } from 'express';
 import Log from '../models/SismedLog';
 import { getRepository } from 'typeorm'
+import { data, hora } from '../functions'
 
 export default {
-  async salvar(request: Request, response: Response) {
-    const {
-      data,
-      hora,
-      funcionarioId,
-      evento,
-      descricao
-    } = request.body;
+  async salvar(funcionarioId: number, evento: string, descricao: string) {
 
     const dados = {
-      data,
-      hora,
+
       funcionarioId,
       evento,
-      descricao
+      descricao,
+      data: data(),
+      hora: hora()
     }
 
     const repository = getRepository(Log);
@@ -25,10 +19,9 @@ export default {
 
     const log = repository.create(dados);
 
-
     await repository.save(log);
 
-    return response.status(201).json(log);
+    return log;
 
   }
 }

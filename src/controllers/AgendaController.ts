@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import Agenda from '../models/SismedAgenda';
 import AgendaView from '../views/AgendaView';
+import LogController from './LogController';
+import { formatarData } from '../functions'
 
 export default {
   async listarTodos(request: Request, response: Response) {
@@ -132,10 +134,6 @@ export default {
       compareceu,
       finalizado
     } = request.body;
-
-
-
-
     const repository = getRepository(Agenda);
     const hasAgendamento = await repository.findOne(
       { data, hora, funcionarioId: parseInt(funcionario) },
@@ -149,6 +147,21 @@ export default {
         );
       }
     }
+
+
+    const agendamentoBanco = await repository.findOne({ where: { id }, relations: ['paciente'] });
+
+
+    if (data !== agendamentoBanco?.data) {
+      await LogController.salvar(request.userId, 'EDIÇÃO',
+        `ALTERAÇÃO NA DATA DO AGENDAMENTO DO PACIENTE ${agendamentoBanco?.paciente.nome}. ` +
+        `DO DIA ${formatarData(agendamentoBanco?.data || '')} PARA O DIA ${formatarData(data)}`
+      );
+
+    }
+
+
+
     const dados = {
       id,
       data,
@@ -193,6 +206,7 @@ export default {
       return response.sendStatus(200);
     }
   },
+
   async agendamentosAnteriores(request: Request, response: Response) {
     const { id } = request.params;
     const repository = getRepository(Agenda);
@@ -205,6 +219,7 @@ export default {
     );
     return response.json(agendamentos);
   },
+
   async excluir(request: Request, response: Response) {
 
     const { id } = request.params;
