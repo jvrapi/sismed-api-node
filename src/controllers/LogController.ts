@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import Log from '../models/SismedLog';
 import { getRepository } from 'typeorm'
 import { data, hora } from '../functions'
@@ -23,5 +24,11 @@ export default {
 
     return log;
 
+  },
+
+  async listarTodos(request: Request, response: Response) {
+    const repository = getRepository(Log);
+    const logs = await repository.find({ relations: ['funcionario'] });
+    return response.json(logs);
   }
 }

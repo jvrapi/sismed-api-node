@@ -1,4 +1,4 @@
-export function HealthInsurance(codconvenio: number): number {
+export function Convenios(codconvenio: number): number {
   let response = 0;
   if (codconvenio === 2) {
     response = 44;
@@ -25,7 +25,7 @@ export function HealthInsurance(codconvenio: number): number {
   }
   return response;
 }
-export function MedicalProcedure(codConvenio: number): number {
+export function Procedimentos(codConvenio: number): number {
   let response = 0;
 
   if (codConvenio === 1) {
