@@ -15,10 +15,14 @@ import LaboratorioRotas from './laboratorio.routes';
 import ExameRotas from './exame.routes';
 import LogRotas from './log.routes';
 import UserController from '../controllers/UserController';
+import BackupController from '../controllers/BackupController';
+import RestoreController from '../controllers/RestoreController';
 
 const Routers = Router();
 
 Routers.post('/autenticacao', UserController.autenticacao);
+Routers.post('/backup', AutenticacaoMiddleware, BackupController.backup);
+Routers.post('/restore', AutenticacaoMiddleware, RestoreController.restaurar);
 Routers.use('/paciente', AutenticacaoMiddleware, PacienteRotas);
 Routers.use('/agenda', AutenticacaoMiddleware, AgendaRotas);
 Routers.use('/funcionario', AutenticacaoMiddleware, FuncionarioRotas);
