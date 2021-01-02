@@ -41,6 +41,8 @@ export default class SismedRelatorio {
   @Column('int', { name: 'agendamento' })
   agendamento: number;
 
+  total: number;
+
   @ManyToOne(
     () => Convenio,
     (Convenio) => Convenio.relatorio,
