@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { getRepository, IsNull, Not, Like } from 'typeorm';
 import { formatarData } from '../functions';
 import Funcionario from '../models/SismedFuncionario';
-
+import bcrypt from 'bcryptjs';
 
 import FuncionarioView from '../views/FuncionarioView';
 import LogController from './LogController';
@@ -105,11 +105,6 @@ export default {
       escolaridade,
       crm,
       especialidade,
-      recomendacao,
-      tipoConvenio,
-      carteiraConvenio,
-      validade,
-      situacao,
       perfilId,
       endereco
     } = request.body;
@@ -135,11 +130,6 @@ export default {
       escolaridade,
       crm,
       especialidade,
-      recomendacao,
-      tipoConvenio,
-      carteiraConvenio,
-      validade,
-      situacao,
       perfilId,
       endereco
     }
@@ -173,6 +163,62 @@ export default {
     return response.json(funcionario);
   },
 
+  async salvar(request: Request, response: Response) {
+    const {
+      nome,
+      senha,
+      dataNascimento,
+      cpf,
+      rg,
+      orgaoEmissor,
+      dataEmissao,
+      dataInicio,
+      dataTermino,
+      naturalidade,
+      nacionalidade,
+      telefoneFixo,
+      telefoneTrabalho,
+      celular,
+      email,
+      sexo,
+      estadoCivil,
+      escolaridade,
+      crm,
+      especialidade,
+      perfilId,
+      endereco
+    } = request.body;
+
+    const repository = getRepository(Funcionario);
+    const dados = {
+      nome,
+      senha,
+      dataNascimento,
+      cpf,
+      rg,
+      orgaoEmissor,
+      dataEmissao,
+      dataInicio,
+      dataTermino,
+      naturalidade,
+      nacionalidade,
+      telefoneFixo,
+      telefoneTrabalho,
+      celular,
+      email,
+      sexo,
+      estadoCivil,
+      escolaridade,
+      crm,
+      especialidade,
+      perfilId,
+      endereco
+    }
+    const funcionario = repository.create(dados);
+    await repository.save(funcionario);
+    return response.json(funcionario);
+  },
+
   async excluir(request: Request, response: Response) {
     const { id } = request.params;
     const repository = getRepository(Funcionario);
@@ -184,6 +230,14 @@ export default {
     } catch {
       return response.sendStatus(500).json({ messagem: 'Erro ao tentar excluir o funcionário' })
     }
+  },
+
+  async atualizarSenha(request: Request, response: Response) {
+    let { id, senha } = request.body;
+    const repository = getRepository(Funcionario);
+    const funcionario = repository.create({ id, senha });
+    await repository.save(funcionario);
+    return response.json(funcionario);
   }
 
 };

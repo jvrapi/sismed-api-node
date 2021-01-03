@@ -13,5 +13,7 @@ Routers.get('/celular/:celular', FuncionarioController.listarPorCelular);
 Routers.get('/matricula/:id', FuncionarioController.listarPorMatricula);
 Routers.get('/especialidade/:especialidade', FuncionarioController.listarPorEspecialidade);
 Routers.put('/', FuncionarioController.atualizar);
-Routers.delete('/:id', FuncionarioController.excluir)
+Routers.delete('/:id', FuncionarioController.excluir);
+Routers.post('/atualizarSenha', FuncionarioController.atualizarSenha);
+Routers.post('/', FuncionarioController.salvar);
 export default Routers;
