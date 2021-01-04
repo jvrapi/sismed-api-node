@@ -10,17 +10,16 @@ import ConvenioRotas from './convenios.routes';
 import TipoConvenioRotas from './tiposConvenio.routes';
 import FuncionarioTConvenioRotas from './funcionarioTconvenio.routes';
 import LaboratorioTConvenioRotas from './laboratorioTconvenio.routes';
-
+import UsuarioRotas from './usuario.routes';
 import LaboratorioRotas from './laboratorio.routes';
 import ExameRotas from './exame.routes';
 import LogRotas from './log.routes';
-import UserController from '../controllers/UserController';
 import BackupController from '../controllers/BackupController';
 import RestoreController from '../controllers/RestoreController';
 
 const Routers = Router();
 
-Routers.post('/autenticacao', UserController.autenticacao);
+Routers.use('/usuario', UsuarioRotas);
 Routers.post('/backup', AutenticacaoMiddleware, BackupController.backup);
 Routers.post('/restore', AutenticacaoMiddleware, RestoreController.restaurar);
 Routers.use('/paciente', AutenticacaoMiddleware, PacienteRotas);
@@ -36,7 +35,6 @@ Routers.use('/relatorio', AutenticacaoMiddleware, RelatorioRotas);
 Routers.use('/laboratorio', AutenticacaoMiddleware, LaboratorioRotas);
 Routers.use('/exame', AutenticacaoMiddleware, ExameRotas);
 Routers.use('/log', AutenticacaoMiddleware, LogRotas);
-
 
 
 export default Routers;

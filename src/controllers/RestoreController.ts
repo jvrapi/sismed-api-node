@@ -9,7 +9,7 @@ export default {
     tabelas.forEach((tabela: string) => {
       const dumpFile = path.join(__dirname, '..', 'backups', data, `${tabela}.sql`);
 
-      exec(`mysql -u${process.env.MYSQL_USER} -p${process.env.MYSQL_PASSWORD} -h${process.env.MYSQL_HOST} ${process.env.MYSQL_DATABASE} < ${dumpFile}`);
+      exec(`mysql -u${process.env.MYSQL_USUARIO} -p${process.env.MYSQL_SENHA} -h${process.env.MYSQL_HOST} ${process.env.MYSQL_BANCO} < ${dumpFile}`);
     });
     return response.json({})
 

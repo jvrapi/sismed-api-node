@@ -85,7 +85,7 @@ export default class SismedFuncionario {
   nacionalidade: string;
 
   @Column('varchar', { name: 'codigo', nullable: true, length: 16 })
-  codigo: string;
+  codigo: string | null;
 
   @Column('varchar', { name: 'senha', length: 255 })
   senha: string;

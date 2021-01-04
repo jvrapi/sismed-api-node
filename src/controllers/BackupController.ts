@@ -19,7 +19,7 @@ export default {
     tabelas.forEach((tabela: string) => {
       const dumpFile = path.join(__dirname, '..', 'backups', data(), `${tabela}.sql`);
 
-      exec(`mysqldump -u${process.env.MYSQL_USER} -p${process.env.MYSQL_PASSWORD} -h${process.env.MYSQL_HOST} ${process.env.MYSQL_DATABASE} ${tabela} > ${dumpFile}`);
+      exec(`mysqldump -u${process.env.MYSQL_USUARIO} -p${process.env.MYSQL_SENHA} -h${process.env.MYSQL_HOST} ${process.env.MYSQL_BANCO} ${tabela} > ${dumpFile}`);
 
     });
 
