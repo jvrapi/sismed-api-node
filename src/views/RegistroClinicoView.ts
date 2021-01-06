@@ -1,4 +1,4 @@
-import RegistroClinico from '../models/SismedRegistroClinico';
+import { RegistroClinico } from '../models/RegistroClinico';
 
 export default {
   listar(registrosClinico: RegistroClinico[]) {

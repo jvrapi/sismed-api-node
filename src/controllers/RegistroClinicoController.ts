@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { Funcionario } from '../models/Funcionario';
 import { Paciente } from '../models/Paciente';
 import { RegistroClinico } from '../models/RegistroClinico';
 import RegistroClinicoView from '../views/RegistroClinicoView';

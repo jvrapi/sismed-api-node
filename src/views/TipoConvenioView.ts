@@ -1,4 +1,4 @@
-import TipoConvenio from '../models/SismedTipoConvenio';
+import { TipoConvenio } from '../models/TipoConvenio';
 
 export default {
   tipoConvenio(tipoConvenio: TipoConvenio) {

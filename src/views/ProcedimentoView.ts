@@ -1,4 +1,4 @@
-import Procedimento from '../models/SismedProcedimento';
+import { Procedimento } from '../models/Procedimento';
 
 export default {
   procedimento(procedimento: Procedimento) {

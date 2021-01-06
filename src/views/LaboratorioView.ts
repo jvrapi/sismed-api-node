@@ -1,4 +1,4 @@
-import Laboratorio from '../models/SismedLaboratorio';
+import { Laboratorio } from '../models/Laboratorio';
 
 export default {
   listar(laboratorios: Laboratorio[]) {

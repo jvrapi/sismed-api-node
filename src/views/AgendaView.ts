@@ -1,5 +1,5 @@
 
-import Agenda from '../models/SismedAgenda'
+import { Agenda } from '../models/Agenda'
 export default {
   detalhes(agendamento: Agenda) {
     return {

@@ -1,4 +1,4 @@
-import Exame from '../models/SismedExame';
+import { Exame } from '../models/Exame';
 
 interface ExamePesquisa {
   id: number,

@@ -1,4 +1,4 @@
-import Funcionario from '../models/SismedFuncionario';
+import { Funcionario } from '../models/Funcionario';
 
 export default {
   autenticacao(funcionario: Funcionario, token: string) {

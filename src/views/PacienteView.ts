@@ -1,4 +1,4 @@
-import Paciente from '../models/SismedPaciente';
+import { Paciente } from '../models/Paciente';
 
 export default {
   listar(pacientes: Paciente[]) {
