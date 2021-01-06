@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import Convenio from '../models/SismedConvenio';
-import TipoConvenio from '../models/SismedTipoConvenio';
-import Funcionario from '../models/SismedFuncionario';
+import { Convenio } from '../models/Convenio';
+import { TipoConvenio } from '../models/TipoConvenio';
+import { Funcionario } from '../models/Funcionario';
 import { getRepository } from 'typeorm';
-import FuncionarioTipoConvenio from '../models/SismedFuncionarioTconvenio';
+import { FuncionarioTconvenio } from '../models/FuncionarioTconvenio';
 
 export default {
 
@@ -14,7 +14,7 @@ export default {
       .select(['c.id AS id', 'c.nome AS nome'])
       .distinct(true)
       .innerJoin(TipoConvenio, 'tc', 'tc.convenioId = c.id')
-      .innerJoin(FuncionarioTipoConvenio, 'ft', 'ft.tipoConvenioId = tc.id')
+      .innerJoin(FuncionarioTconvenio, 'ft', 'ft.tipoConvenioId = tc.id')
       .innerJoin(Funcionario, 'f', 'ft.funcionarioId = f.id')
       .where(`f.id = ${id}`)
       .orderBy('c.nome')
@@ -28,7 +28,7 @@ export default {
     const repository = getRepository(TipoConvenio);
     const tiposConvenio = await repository.createQueryBuilder('tc')
       .select(['tc.id AS id', 'tc.nome AS nome'])
-      .innerJoin(FuncionarioTipoConvenio, 'ft', 'ft.tipoConvenioId = tc.id')
+      .innerJoin(FuncionarioTconvenio, 'ft', 'ft.tipoConvenioId = tc.id')
       .innerJoin(Funcionario, 'f', 'ft.funcionarioId = f.id')
       .where(`f.id = ${funcionarioId} AND tc.convenio_id = ${convenioId}`)
       .orderBy('tc.nome')
@@ -42,7 +42,7 @@ export default {
     const tConvenioRepository = getRepository(TipoConvenio);
     const tiposAceitos = tConvenioRepository.createQueryBuilder('tc')
       .select('tc.id AS id')
-      .innerJoin(FuncionarioTipoConvenio, 'ft', 'ft.tipoConvenioId = tc.id')
+      .innerJoin(FuncionarioTconvenio, 'ft', 'ft.tipoConvenioId = tc.id')
       .where(`ft.funcionarioId = ${id}`)
       .getQuery()
 
@@ -64,7 +64,7 @@ export default {
 
     const tiposAceitos = await repository.createQueryBuilder('tc')
       .select('tc.id AS id')
-      .innerJoin(FuncionarioTipoConvenio, 'ft', 'ft.tipoConvenioId = tc.id')
+      .innerJoin(FuncionarioTconvenio, 'ft', 'ft.tipoConvenioId = tc.id')
       .where(`ft.funcionarioId = ${funcionarioId}`)
       .getQuery()
 
@@ -79,8 +79,8 @@ export default {
   },
 
   async salvar(request: Request, response: Response) {
-    const funcionarioTConvenio: FuncionarioTipoConvenio[] = request.body;
-    const repository = getRepository(FuncionarioTipoConvenio);
+    const funcionarioTConvenio: FuncionarioTconvenio[] = request.body;
+    const repository = getRepository(FuncionarioTconvenio);
     const resposta = await Promise.all(funcionarioTConvenio.map(async funcTconvenio => {
       const funcionarioTconvenio = repository.create(funcTconvenio);
       await repository.save(funcionarioTconvenio);
@@ -91,8 +91,8 @@ export default {
   },
 
   async excluir(request: Request, response: Response) {
-    const dados: FuncionarioTipoConvenio[] = request.body;
-    const repository = getRepository(FuncionarioTipoConvenio);
+    const dados: FuncionarioTconvenio[] = request.body;
+    const repository = getRepository(FuncionarioTconvenio);
     try {
       dados.forEach(async funcTconvenio => {
         await repository.delete(

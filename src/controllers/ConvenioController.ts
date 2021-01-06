@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getRepository, Like } from 'typeorm';
-import Convenio from '../models/SismedConvenio';
+import { Convenio } from '../models/Convenio';
 
 export default {
   async listarTodos(request: Request, response: Response) {

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getRepository, Like } from 'typeorm';
-import TipoConvenio from '../models/SismedTipoConvenio';
+import { TipoConvenio } from '../models/TipoConvenio';
 import TipoConvenioView from '../views/TipoConvenioView';
 
 export default {

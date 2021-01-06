@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import Exame from '../models/SismedExame';
+import { Exame } from '../models/Exame';
 import ExameView from '../views/ExameView';
 import LogController from './LogController';
 import { formatarData } from '../functions'

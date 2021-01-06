@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getRepository, Like } from 'typeorm';
-import Paciente from '../models/SismedPaciente';
+import { Paciente } from '../models/Paciente';
 import PacienteView from '../views/PacienteView';
 import { getManager } from 'typeorm';
 import LogController from './LogController';

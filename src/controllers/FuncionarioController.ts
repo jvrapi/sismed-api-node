@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository, IsNull, Not, Like } from 'typeorm';
 import { formatarData } from '../functions';
-import Funcionario from '../models/SismedFuncionario';
-import bcrypt from 'bcryptjs';
+import { Funcionario } from '../models/Funcionario';
 
 import FuncionarioView from '../views/FuncionarioView';
 import LogController from './LogController';

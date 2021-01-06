@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { getRepository, IsNull, Not } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import Funcionario from '../models/SismedFuncionario';
+import { Funcionario } from '../models/Funcionario';
 import FuncionarioView from '../views/FuncionarioView';
 import * as nodemailer from "nodemailer";
 import fs from 'fs';

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getRepository, Like } from 'typeorm';
-import Procedimento from '../models/SismedProcedimento';
+import { Procedimento } from '../models/Procedimento';
 import ProcedimentoView from '../views/ProcedimentoView';
 
 export default {

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import Relatorio from '../models/SismedRelatorio';
+import { Relatorio } from '../models/Relatorio';
 import RelatorioView from '../views/RelatorioView';
 
 export default {

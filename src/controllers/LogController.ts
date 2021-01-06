@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Log from '../models/SismedLog';
+import { Log } from '../models/Log';
 import { getRepository } from 'typeorm'
 import { data, hora } from '../functions'
 

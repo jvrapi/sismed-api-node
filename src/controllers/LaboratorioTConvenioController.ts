@@ -1,6 +1,6 @@
-import Convenio from '../models/SismedConvenio';
-import TipoConvenio from '../models/SismedTipoConvenio';
-import LaboratorioTipoConvenio from '../models/SismedLaboratorioTconvenio';
+import { Convenio } from '../models/Convenio';
+import { TipoConvenio } from '../models/TipoConvenio';
+import { LaboratorioTconvenio } from '../models/LaboratorioTconvenio';
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
@@ -20,7 +20,7 @@ export default {
       .select(['c.id as id', 'c.nome as nome'])
       .distinct(true)
       .innerJoin(TipoConvenio, 'tc', 'tc.convenioId = c.id')
-      .innerJoin(LaboratorioTipoConvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
+      .innerJoin(LaboratorioTconvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
       .where(`ltc.laboratorioId = ${laboratorioId}`)
       .orderBy('c.nome')
       .getRawMany();
@@ -33,7 +33,7 @@ export default {
     const tipoConvenioRepository = getRepository(TipoConvenio);
     const subQuery = await tipoConvenioRepository.createQueryBuilder('tc')
       .select('tc.id as id')
-      .innerJoin(LaboratorioTipoConvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
+      .innerJoin(LaboratorioTconvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
       .where(`ltc.laboratorioId = ${laboratorioId}`)
       .getQuery()
     const convenios = await repository.createQueryBuilder('c')
@@ -52,7 +52,7 @@ export default {
     const tiposAceitos = await repository.createQueryBuilder('tc')
       .select(['tc.id as id', 'tc.nome as nome'])
       .distinct(true)
-      .innerJoin(LaboratorioTipoConvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
+      .innerJoin(LaboratorioTconvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
       .where(`ltc.laboratorioId = ${laboratorioId} AND tc.convenioId = ${convenioId}`)
       .orderBy('tc.nome')
       .getRawMany();
@@ -64,7 +64,7 @@ export default {
     const repository = getRepository(TipoConvenio);
     const subQuery = await repository.createQueryBuilder('tc')
       .select('tc.id as id')
-      .innerJoin(LaboratorioTipoConvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
+      .innerJoin(LaboratorioTconvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
       .where(`ltc.laboratorioId = ${laboratorioId} AND tc.convenioId = ${convenioId}`)
       .getQuery()
     const tiposNaoAceitos = await repository.createQueryBuilder('tc')
@@ -88,7 +88,7 @@ export default {
         ]
       )
       .innerJoin(TipoConvenio, 'tc', 'tc.convenioId = c.id')
-      .innerJoin(LaboratorioTipoConvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
+      .innerJoin(LaboratorioTconvenio, 'ltc', 'ltc.tipoConvenioId = tc.id')
       .where(`ltc.laboratorioId = ${laboratorioId}`)
       .orderBy('c.nome')
       .getRawMany();
@@ -109,8 +109,8 @@ export default {
 
 
   async salvar(request: Request, response: Response) {
-    const laboratorioTConvenio: LaboratorioTipoConvenio[] = request.body;
-    const repository = getRepository(LaboratorioTipoConvenio)
+    const laboratorioTConvenio: LaboratorioTconvenio[] = request.body;
+    const repository = getRepository(LaboratorioTconvenio)
 
     const resposta = await Promise.all(laboratorioTConvenio.map(async labTconvenio => {
       const laboratorioTconvenio = repository.create(labTconvenio);
@@ -123,8 +123,8 @@ export default {
 
 
   async excluir(request: Request, response: Response) {
-    const laboratorioTConvenio: LaboratorioTipoConvenio[] = request.body;
-    const repository = getRepository(LaboratorioTipoConvenio);
+    const laboratorioTConvenio: LaboratorioTconvenio[] = request.body;
+    const repository = getRepository(LaboratorioTconvenio);
     try {
       laboratorioTConvenio.forEach(async labTconvenio => {
         await repository.delete({

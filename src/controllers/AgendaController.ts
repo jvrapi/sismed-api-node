@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import Agenda from '../models/SismedAgenda';
+import { Agenda } from '../models/Agenda';
 import AgendaView from '../views/AgendaView';
 import LogController from './LogController';
 import { formatarData } from '../functions'

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { getRepository, Like } from 'typeorm';
-import Endereco from '../models/SismedEndereco';
-import Laboratorio from '../models/SismedLaboratorio';
-import LaboratorioTconvenio from '../models/SismedLaboratorioTconvenio';
+import { Endereco } from '../models/Endereco';
+import { Laboratorio } from '../models/Laboratorio';
+import { LaboratorioTconvenio } from '../models/LaboratorioTconvenio';
 
 import LaboratorioView from '../views/LaboratorioView';
 
