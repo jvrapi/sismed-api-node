@@ -89,7 +89,7 @@ export default {
           from: user,
           to: 'joaooviitorr@hotmail.com',
           subject: 'Atualização de senha via e-mail',
-          html: gerarHTML(nomeFuncionarioHtml[0], codigo)
+          text: `Informe o codigo na pagina para continuar: ${codigo}`
         };
 
         remetente.sendMail(emailASerEnviado, function (error, info) {
