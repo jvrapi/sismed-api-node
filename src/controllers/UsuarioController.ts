@@ -29,7 +29,7 @@ export default {
 
         if (!isValidPassword) {
 
-          return response.sendStatus(401);
+          return response.sendStatus(404);
         }
 
         const token = jwt.sign({ id: funcionario.id }, secretKey || 'secretKey', { expiresIn: '1d' });
