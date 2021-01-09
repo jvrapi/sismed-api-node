@@ -6,7 +6,6 @@ export default {
       id: funcionario.id,
       perfil: funcionario.perfilId,
       nome: funcionario.nome,
-      cpf: funcionario.cpf,
       token,
     };
   },
