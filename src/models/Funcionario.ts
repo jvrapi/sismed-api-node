@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   Index,
@@ -7,6 +9,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import bcrypt from 'bcryptjs';
 import { Agenda } from "./Agenda";
 import { Exame } from "./Exame";
 import { Endereco } from "./Endereco";
@@ -91,6 +94,14 @@ export class Funcionario {
 
   @Column("varchar", { name: "senha", nullable: true, length: 255 })
   senha: string;
+
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  hashPassword() {
+    this.senha = bcrypt.hashSync(this.senha, 12);
+  }
+
 
   @OneToMany(() => Agenda, (agenda) => agenda.funcionario)
   agenda: Agenda[];
