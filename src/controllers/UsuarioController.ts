@@ -53,7 +53,7 @@ export default {
       if (funcionario.dataTermino) {
 
         return response
-          .status(401)
+          .status(403)
           .json({ messagem: 'CPF não possui acesso ao sistema' });
       } else {
         const host = process.env.EMAIL_HOST as string;
