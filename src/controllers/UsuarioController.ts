@@ -6,9 +6,7 @@ import { Funcionario } from '../models/Funcionario';
 import FuncionarioView from '../views/FuncionarioView';
 import * as nodemailer from "nodemailer";
 import fs from 'fs';
-import handlebars from 'handlebars';
-import path from 'path';
-import { gerarHTML } from '../functions';
+
 
 
 export default {
@@ -29,7 +27,7 @@ export default {
 
         if (!isValidPassword) {
 
-          return response.sendStatus(401);
+          return response.status(401).json({ messagem: 'Senha inválida' });
         }
 
         const token = jwt.sign({ id: funcionario.id }, secretKey || 'secretKey', { expiresIn: '1d' });
