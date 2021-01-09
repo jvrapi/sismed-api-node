@@ -22,14 +22,14 @@ export default {
     if (funcionario) {
       if (funcionario.dataTermino) {
         return response
-          .status(401)
+          .status(403)
           .json({ messagem: 'CPF não possui acesso ao sistema' });
       } else {
         const isValidPassword = await bcrypt.compare(senha, funcionario.senha);
 
         if (!isValidPassword) {
 
-          return response.sendStatus(404);
+          return response.sendStatus(401);
         }
 
         const token = jwt.sign({ id: funcionario.id }, secretKey || 'secretKey', { expiresIn: '1d' });
