@@ -108,3 +108,35 @@ export const data = () => {
 
   return todayYear + '-' + todayMonth + '-' + todayDay;
 }
+
+export const gerarHTML = (nomeFuncionario: string, codigo: string) => {
+  return `
+  <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; padding: 40px 30px 40px 30px; font-family: Arial,Helvetica, 
+    sans-serif;">
+    <tr id="header">
+      <td align="center" style="padding: 20px 0 10px 0;">
+        <h1 style="font-weight: 200;">SISMED</h1>
+        <p style="margin-bottom: 0;">Redefir Senha</p>
+      </td>
+    </tr>
+    <tr id="main">
+      <td align="center" bgcolor="#0087cd">
+        <h4 class="text-center"><strong>Olá, ${nomeFuncionario}</strong></h4>
+
+        <p>Para continuar com a redefinição de senha, informe o codigo na pagina:</p>
+        <p>
+          <strong>${codigo}</strong>
+          
+        </p>
+
+      </td>
+    </tr>
+    <tr id="footer">
+      <td bgcolor="LightGray" style="padding: 10px 0px 10px 0px; text-align:center;">
+        <p style="margin-bottom: .25rem;">&copy; 2020 SISMED. Todos os direitos reservados.</p>
+      </td>
+    </tr>
+  </table>
+  
+  `
+}

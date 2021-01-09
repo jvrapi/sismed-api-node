@@ -8,6 +8,7 @@ import * as nodemailer from "nodemailer";
 import fs from 'fs';
 import handlebars from 'handlebars';
 import path from 'path';
+import { gerarHTML } from '../functions';
 
 
 export default {
@@ -65,58 +66,48 @@ export default {
 
         const pass = process.env.EMAIL_SENHA as string;
 
-        const htmlPath = path.join(__dirname, '..', 'pages', 'email.html');
+        const nomeFuncionarioHtml = funcionario.nome.split(' ', 1);
+        const codigo = Math.random().toString(36).slice(2)
+        funcionario.codigo = codigo;
+        await repository.save({ id: funcionario.id, codigo });
 
-        readHTMLFile(htmlPath, async function (err: Error, html: HTMLFieldSetElement) {
-          const template = handlebars.compile(html);
 
-          const nomeFuncionarioHtml = funcionario.nome.split(' ', 1);
-          const codigo = Math.random().toString(36).slice(2)
-          funcionario.codigo = codigo;
-          await repository.save({ id: funcionario.id, codigo });
+        const remetente = nodemailer.createTransport({
+          name: host,
+          from: user,
+          host,
+          port,
+          secure: true,
+          auth: {
+            user,
+            pass,
 
-          const replacements = {
-            codigo,
-            funcionario: nomeFuncionarioHtml
-          };
-
-          const htmlToSend = template(replacements);
-
-          const remetente = nodemailer.createTransport({
-            name: host,
-            from: user,
-            host,
-            port,
-            secure: true,
-            auth: {
-              user,
-              pass,
-
-            },
-          });
-
-          const emailASerEnviado = {
-            from: user,
-            to: 'joaooviitorr@hotmail.com',
-            subject: 'Atualização de senha via e-mail',
-            html: htmlToSend,
-          };
-
-          remetente.sendMail(emailASerEnviado, function (error, info) {
-            if (error) {
-              return response.status(500).json({ messagem: 'Erro ao enviar email' })
-
-            } else {
-              return response.json(
-                {
-                  id: funcionario.id,
-                  username: funcionario.cpf,
-                  email: esconderEmail(funcionario.email)
-                }
-              )
-            }
-          });
+          },
         });
+
+        const emailASerEnviado = {
+          from: user,
+          to: 'joaooviitorr@hotmail.com',
+          subject: 'Atualização de senha via e-mail',
+          html: gerarHTML(nomeFuncionarioHtml[0], codigo)
+        };
+
+        remetente.sendMail(emailASerEnviado, function (error, info) {
+          if (error) {
+            return response.status(500).json({ messagem: 'Erro ao enviar email' })
+
+          } else {
+            return response.json(
+              {
+                id: funcionario.id,
+                username: funcionario.cpf,
+                email: esconderEmail(funcionario.email)
+              }
+            )
+          }
+        });
+
+
 
       }
     } else {
