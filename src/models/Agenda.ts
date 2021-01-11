@@ -80,6 +80,7 @@ export class Agenda {
   @ManyToOne(() => Paciente, (paciente) => paciente.agenda, {
     onDelete: "NO ACTION",
     onUpdate: "NO ACTION",
+    cascade: true
   })
   @JoinColumn([{ name: "paciente_id", referencedColumnName: "prontuario" }])
   paciente: Paciente;

@@ -96,6 +96,7 @@ export class Paciente {
   @ManyToOne(() => Endereco, (endereco) => endereco.pacientes, {
     onDelete: "RESTRICT",
     onUpdate: "CASCADE",
+    cascade: true
   })
   @JoinColumn([{ name: "endereco_id", referencedColumnName: "id" }])
   endereco: Endereco;
