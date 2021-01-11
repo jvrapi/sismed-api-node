@@ -242,7 +242,7 @@ export default {
     const entityManager = getManager();
     const prontuario = await entityManager.query(
       `SELECT AUTO_INCREMENT AS proximoProntuario FROM information_schema.tables `
-      + `WHERE table_name = 'sismed_paciente' AND table_schema = 'macmassc_sismed'`
+      + `WHERE table_name = 'paciente' AND table_schema = 'macmassc_sismed'`
     );
     return response.json(prontuario[0]);
   }
