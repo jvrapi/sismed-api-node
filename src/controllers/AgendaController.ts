@@ -92,7 +92,9 @@ export default {
       {
         where:
         {
-          data: agenda.data, hora: agenda.hora, funcionarioId: parseInt(agenda.funcionario)
+          data: agenda.data,
+          hora: agenda.hora,
+          funcionarioId: parseInt(agenda.funcionario)
         }
       },
     );
