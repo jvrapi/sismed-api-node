@@ -66,7 +66,7 @@ export default {
           telefoneFixo: agendamento.paciente.telefoneFixo,
           celular: agendamento.paciente.celular,
           dataNascimento: agendamento.paciente.dataNascimento,
-
+          idade: CalcularIdade(agendamento.paciente.dataNascimento)
         },
         funcionario: {
           id: agendamento.funcionario.id,
@@ -84,5 +84,48 @@ export default {
       }
     })
   }
+}
+
+const CalcularIdade = (dataNascimento: string | null) => {
+
+  let resposta = 'Data nascimento não cadastrada';
+
+  if (dataNascimento) {
+    const todayDate = new Date();
+    const todayArray = todayDate.toLocaleDateString().split('/');
+    const nascimentoArray = dataNascimento.split('-');
+
+    // Informações sobre a data atual
+    const todayYear = Number(todayArray[2]);
+    const todayMonth = Number(todayArray[1]);
+    const todayDay = Number(todayArray[0]);
+
+    // Informações da data de nascimento do paciente
+    const yearNascimento = Number(nascimentoArray[0]);
+    const monthNascimento = Number(nascimentoArray[1]);
+    const dayNascimento = Number(nascimentoArray[2]);
+
+    let idade = todayYear - yearNascimento;
+
+    /*Caso o mes atual seja menor que o mes do nascimento
+      aniversario ainda não passou
+    */
+    if (todayMonth < monthNascimento) {
+      idade--;
+    }
+    // Esta no mes do aniversario
+    else if (todayMonth === monthNascimento) {
+      /*Caso o dia atual seja menor que o dia do nascimento
+        aniversario ainda não passou
+      */
+      if (todayDay < dayNascimento) {
+        idade--;
+      }
+    }
+    resposta = `${idade} Anos`
+  }
+
+
+  return resposta;
 }
 
