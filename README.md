@@ -21,3 +21,6 @@ EMAIL_PORTA=
 EMAIL_USUARIO=
 
 EMAIL_SENHA=
+
+
+Atualizando a API para trabalhar com react;
