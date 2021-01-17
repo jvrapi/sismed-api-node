@@ -23,4 +23,4 @@ EMAIL_USUARIO=
 EMAIL_SENHA=
 
 
-Atualizando a API para trabalhar com react;
+Atualizando a API para trabalhar com react
