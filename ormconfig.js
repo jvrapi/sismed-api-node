@@ -21,6 +21,7 @@ const ormConfig = {
     migrationsDir: rootDir + '/database/migrations',
     entitiesDir: rootDir + '/entities',
   },
+
 }
 
 process.env.NODE_ENV !== 'development' && (ormConfig['ssl'] = {

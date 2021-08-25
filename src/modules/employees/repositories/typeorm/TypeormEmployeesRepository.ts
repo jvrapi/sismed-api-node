@@ -1,4 +1,4 @@
-import Employee from '@entities/Employee'
+import { Employee } from '../../../../entities/Employee'
 import { getRepository, Repository } from 'typeorm'
 import { IEmployeeRepository } from '../IEmployeeRepository'
 

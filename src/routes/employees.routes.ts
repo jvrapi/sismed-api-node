@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { listAllEmployeesFactory } from '@modules/employees'
+import { listAllEmployeesFactory } from '../modules/employees'
 const routes = Router()
 
 routes.get('/', (request, response) =>

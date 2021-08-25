@@ -1,11 +1,11 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
-import Employee from './Employee'
+import { Employee } from './Employee'
 // import Lab from './Lab'
 // import Patient from './Patient'
 
 @Entity('addresses')
-export default class Address {
+class Address {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -39,3 +39,5 @@ export default class Address {
   // @OneToMany(() => Patient, patient => patient.address)
   // patients: Patient[]
 }
+
+export { Address }

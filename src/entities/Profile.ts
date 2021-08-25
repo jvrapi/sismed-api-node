@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
-import Employee from './Employee'
+import { Employee } from './Employee'
 
 @Entity('profiles')
-export default class Profile {
+class Profile {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -13,3 +13,4 @@ export default class Profile {
   @OneToMany(() => Employee, employee => employee.profile)
   employees: Employee[]
 }
+export { Profile }

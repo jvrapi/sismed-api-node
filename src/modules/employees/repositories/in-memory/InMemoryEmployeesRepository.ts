@@ -1,9 +1,13 @@
-import Employee from '@entities/Employee'
+import { Employee } from '../../../../entities/Employee'
 import { IEmployeeRepository } from '../IEmployeeRepository'
 
 class InMemoryEmployeesRepository implements IEmployeeRepository {
+  private employees: Employee[] = []
+
   listAll(): Promise<Employee[]> {
-    throw new Error('Method not implemented.')
+    return new Promise<Employee[]>((resolve, reject) => {
+      resolve(this.employees)
+    })
   }
 
   getById(id: number): Promise<Employee> {

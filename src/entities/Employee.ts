@@ -9,15 +9,15 @@ import {
   PrimaryGeneratedColumn
 } from 'typeorm'
 
-import Address from './Address'
+import { Address } from './Address'
 // import ClinicalRecord from './ClinicalRecord'
 // import HealthInsuranceType from './HealthInsuranceType'
 // import Log from './Log'
-import Profile from './Profile'
+import { Profile } from './Profile'
 // import Schedule from './Schedule'
 
 @Entity('employees')
-export default class Employee {
+class Employee {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -125,3 +125,5 @@ export default class Employee {
   // @OneToMany(() => Schedule, schedule => schedule.employee)
   // schedules: Schedule[]
 }
+
+export { Employee }
