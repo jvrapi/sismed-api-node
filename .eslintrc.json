@@ -19,6 +19,7 @@
   "rules": {
     "prettier/prettier": "warn",
     "no-console": "warn",
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "no-useless-constructor": "off"
   }
 }

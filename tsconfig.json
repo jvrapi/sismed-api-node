@@ -11,9 +11,9 @@
       "@modules/*": [
         "modules/*"
       ],
-      "@models/*": [
-        "models/*"
-      ]
+      "@entities/*": [
+        "entities/*"
+      ],
     },
     "rootDir": "./src",
     "outDir": "./dist",

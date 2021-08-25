@@ -1,3 +1,6 @@
 import { createConnection } from 'typeorm'
+import { updateProfiles } from 'utils/typeorm/updateProfilesTable'
 
-createConnection()
+createConnection().then(async () => {
+  await updateProfiles()
+})
