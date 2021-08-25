@@ -7,8 +7,7 @@ class ListEmployeesService {
     try {
       const employees = await this.employeesRepository.listAll()
       return employees
-    } catch (error) {
-      console.log(error)
+    } catch {
       throw new Error('Error trying list employees')
     }
   }
