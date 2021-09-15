@@ -1,14 +1,2 @@
-import { ListEmployeesController } from './controllers/ListEmployeesController'
-import { TypeormEmployeesRepository } from './repositories/typeorm/TypeormEmployeesRepository'
-import { ListEmployeesService } from './services/ListEmployeesService'
-
-const listAllEmployeesFactory = () => {
-  const listEmployeesRepository = new TypeormEmployeesRepository()
-  const listEmployeesService = new ListEmployeesService(listEmployeesRepository)
-  const listEmployeesController = new ListEmployeesController(
-    listEmployeesService
-  )
-  return listEmployeesController
-}
-
-export { listAllEmployeesFactory }
+export { default as CreateEmployee } from './Factories/CreateEmployeeFactory'
+export { default as ListAllEmployees } from './Factories/ListAllEmployeesFactory'

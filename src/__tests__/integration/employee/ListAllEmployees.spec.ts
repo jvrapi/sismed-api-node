@@ -15,5 +15,6 @@ describe('Request to list all employees', () => {
     const response = await request(app).get('/employees/')
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body)).toBe(true)
+    expect(response.body.some(element => element.password)).toBe(false)
   })
 })

@@ -1,9 +1,13 @@
 import { Router } from 'express'
-import { listAllEmployeesFactory } from '../modules/employees'
+import { CreateEmployee, ListAllEmployees } from '../modules/employees/'
 const routes = Router()
 
 routes.get('/', (request, response) =>
-  listAllEmployeesFactory().handle(request, response)
+  ListAllEmployees().handle(request, response)
+)
+
+routes.post('/', (request, response) =>
+  CreateEmployee().handle(request, response)
 )
 
 export default routes

@@ -22,7 +22,8 @@ class TypeormEmployeesRepository implements IEmployeeRepository {
   }
 
   save(employee: Employee): Promise<Employee> {
-    throw new Error('Method not implemented.')
+    const newEmployee = this.repository.create(employee)
+    return this.repository.save(newEmployee)
   }
 
   delete(employeeId: number): Promise<String> {
