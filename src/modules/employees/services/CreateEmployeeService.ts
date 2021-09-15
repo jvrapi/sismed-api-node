@@ -15,10 +15,20 @@ class CreateEmployeeService {
       }
     }
     employee.password = await hash(employee.password, 8)
+
+    const { cpf, rg, crm } = employee
+
+    const employeeAlreadyExists =
+      await this.employeesRepository.employeeAlreadyExists({ cpf, rg, crm })
+
+    if (employeeAlreadyExists) {
+      throw new Error('Employee already exists!')
+    }
+
     try {
       const employees = await this.employeesRepository.save(employee)
       return employees
-    } catch {
+    } catch (error) {
       throw new Error('Error trying create new employee')
     }
   }

@@ -1,6 +1,6 @@
 import { Employee } from '../../../../entities/Employee'
 import { getRepository, Repository } from 'typeorm'
-import { IEmployeeRepository } from '../IEmployeeRepository'
+import { IEmployeeRepository, IUniqueField } from '../IEmployeeRepository'
 
 class TypeormEmployeesRepository implements IEmployeeRepository {
   private repository: Repository<Employee>
@@ -15,6 +15,21 @@ class TypeormEmployeesRepository implements IEmployeeRepository {
 
   getById(id: number): Promise<Employee> {
     throw new Error('Method not implemented.')
+  }
+
+  async employeeAlreadyExists(uniqueFields: IUniqueField): Promise<Boolean> {
+    const userAlreadyExists = await this.repository
+      .createQueryBuilder('employee')
+      .where('cpf = :cpf OR crm = :crm OR rg = :rg', uniqueFields)
+      .getMany()
+
+    return new Promise<Boolean>((resolve, reject) => {
+      if (userAlreadyExists.length === 0) {
+        resolve(false)
+      } else {
+        resolve(true)
+      }
+    })
   }
 
   update(employee: Employee): Promise<Employee> {
