@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --watch 'src/**' --transpile-only --ignore-watch node_modules -r tsconfig-paths/register  src/server.ts ",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

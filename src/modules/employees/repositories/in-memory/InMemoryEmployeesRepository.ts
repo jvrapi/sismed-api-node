@@ -19,7 +19,19 @@ class InMemoryEmployeesRepository implements IEmployeeRepository {
   }
 
   save(employee: Employee): Promise<Employee> {
-    throw new Error('Method not implemented.')
+    Object.assign(employee, {
+      id: this.employees.length + 1,
+      address: {
+        ...employee.address,
+        id: this.employees.length + 1
+      }
+    })
+
+    this.employees.push(employee)
+
+    return new Promise<Employee>((resolve, reject) => {
+      resolve(employee)
+    })
   }
 
   delete(employeeId: number): Promise<String> {

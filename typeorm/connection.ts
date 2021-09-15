@@ -31,7 +31,6 @@ const databaseConfig: Partial<DbCredential> = {
 const connection = {
   async connect() {
     await createDatabase({ databaseName: databaseName }, databaseConfig)
-
     return await createConnection({
       type: 'postgres',
       host: databaseConfig.host,
@@ -49,7 +48,7 @@ const connection = {
 
   async close() {
     await dropDatabase({ databaseName: databaseName }, databaseConfig)
-    getConnection().close()
+    await getConnection().close()
   }
 }
 

@@ -34,7 +34,7 @@ class Employee {
   emittingOrgan: string
 
   @Column({ name: 'emitting_date' })
-  emittingDate: string
+  emittingDate: Date
 
   @Column()
   phone: string
@@ -67,16 +67,16 @@ class Employee {
   beginDate: Date
 
   @Column({ name: 'dismissal_date' })
-  dismissalDate: Date | null
+  dismissalDate?: Date | null
 
   @Column()
-  crm: string | null
+  crm?: string | null
 
   @Column()
-  specialty: string | null
+  specialty?: string | null
 
   @Column({ name: 'recovery_code' })
-  recoveryCode: string | null
+  recoveryCode?: string | null
 
   @Column()
   password: string

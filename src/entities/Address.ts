@@ -19,7 +19,7 @@ class Address {
   number: number | null
 
   @Column()
-  complement: string | null
+  complement?: string | null
 
   @Column()
   neighborhood: string | null
