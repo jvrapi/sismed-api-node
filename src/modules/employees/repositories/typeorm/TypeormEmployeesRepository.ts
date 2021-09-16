@@ -9,7 +9,12 @@ class TypeormEmployeesRepository implements IEmployeeRepository {
   }
 
   async listAll(): Promise<Employee[]> {
-    const employees = this.repository.find()
+    const employees = this.repository.find({
+      order: {
+        name: 'ASC'
+      },
+      take: 15
+    })
     return employees
   }
 
