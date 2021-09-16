@@ -82,7 +82,13 @@ class InMemoryEmployeesRepository implements IEmployeeRepository {
   }
 
   delete(employeeId: number): Promise<String> {
-    throw new Error('Method not implemented.')
+    this.employees = this.employees.filter(
+      employee => employee.id !== employeeId
+    )
+
+    return new Promise<String>((resolve, reject) => {
+      resolve('Employee deleted successfully')
+    })
   }
 }
 export { InMemoryEmployeesRepository }
