@@ -4,13 +4,13 @@ import { CreateEmployeeService } from '../services/CreateEmployeeService'
 
 const createEmployeeFactory = () => {
   const createEmployeeRepository = new TypeormEmployeesRepository()
-  const listEmployeesService = new CreateEmployeeService(
+  const createEmployeeService = new CreateEmployeeService(
     createEmployeeRepository
   )
-  const listEmployeesController = new CreateEmployeeController(
-    listEmployeesService
+  const createEmployeeController = new CreateEmployeeController(
+    createEmployeeService
   )
-  return listEmployeesController
+  return createEmployeeController
 }
 
 export default createEmployeeFactory

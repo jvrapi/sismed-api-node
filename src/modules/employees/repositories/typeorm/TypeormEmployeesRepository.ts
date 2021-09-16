@@ -32,12 +32,32 @@ class TypeormEmployeesRepository implements IEmployeeRepository {
     })
   }
 
-  informationAlreadyExists({ cpf, crm, rg }: IUniqueField): Promise<Boolean> {
-    throw new Error('Method not implemented.')
+  async informationAlreadyExists({
+    id,
+    cpf,
+    crm,
+    rg
+  }: IUniqueField): Promise<Boolean> {
+    const informationAlreadyExists = await this.repository
+      .createQueryBuilder()
+      .where('(id <> :id) AND (rg = :rg OR cpf = :cpf OR crm = :crm)', {
+        id,
+        rg,
+        cpf,
+        crm
+      })
+      .getOne()
+    return new Promise<Boolean>((resolve, reject) => {
+      if (informationAlreadyExists) {
+        resolve(true)
+      } else {
+        resolve(false)
+      }
+    })
   }
 
   update(employee: Employee): Promise<Employee> {
-    throw new Error('Method not implemented.')
+    return this.repository.save(employee)
   }
 
   save(employee: Employee): Promise<Employee> {

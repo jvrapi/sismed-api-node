@@ -34,7 +34,7 @@ class Employee {
   emittingOrgan: string
 
   @Column({ name: 'emitting_date' })
-  emittingDate: Date
+  emittingDate: string
 
   @Column()
   phone: string
@@ -46,7 +46,7 @@ class Employee {
   sex: string
 
   @Column({ name: 'date_birth' })
-  dateBirth: Date
+  dateBirth: string
 
   @Column()
   email: string
@@ -64,10 +64,10 @@ class Employee {
   nationality: string
 
   @Column({ name: 'begin_date' })
-  beginDate: Date
+  beginDate: string
 
   @Column({ name: 'dismissal_date' })
-  dismissalDate?: Date | null
+  dismissalDate?: string | null
 
   @Column()
   crm?: string | null

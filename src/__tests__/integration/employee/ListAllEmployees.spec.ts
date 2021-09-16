@@ -11,7 +11,7 @@ describe('Request to list all employees', () => {
     await connection.close()
   })
 
-  it('should be able to list all employees', async () => {
+  it('should be able to list all employees on request', async () => {
     const response = await request(app).get('/employees/')
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body)).toBe(true)

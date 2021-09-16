@@ -11,11 +11,11 @@ describe('Create new employee', () => {
     cpf: '07202007762',
     rg: '284301383',
     email: 'alexandrerenansilveira_@lexos.com.br',
-    dateBirth: new Date('1999-07-06'),
-    beginDate: new Date(),
+    dateBirth: '1999-07-06',
+    beginDate: '2021-09-16',
     cellNumber: '21999215617',
     phone: '2136254129',
-    emittingDate: new Date('2018-30-06'),
+    emittingDate: '2018-06-30',
     emittingOrgan: 'DetranRJ',
     maritalStatus: 'S',
     nationality: 'B',
@@ -32,7 +32,6 @@ describe('Create new employee', () => {
       state: 'RJ'
     }
   }
-
   beforeAll(async () => {
     createNewEmployeeRepository = new InMemoryEmployeesRepository()
     createEmployeeService = new CreateEmployeeService(

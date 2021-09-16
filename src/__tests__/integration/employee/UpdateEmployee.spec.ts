@@ -2,7 +2,7 @@ import { app } from '../../../app'
 import request from 'supertest'
 import { connection } from '../../../../typeorm/connection'
 
-describe('Request to create new employee', () => {
+describe('Request to update employee informations', () => {
   const employeeData = {
     name: 'Alexandre Renan Silveira',
     cpf: '07202007762',
@@ -36,19 +36,18 @@ describe('Request to create new employee', () => {
   afterAll(async () => {
     await connection.close()
   })
+  it('should be able to update an employee on request', async () => {
+    const employeeCreated = await request(app)
+      .post('/employees/')
+      .send(employeeData)
 
-  it('should be able to create a new employee on request', async () => {
-    const response = await request(app).post('/employees/').send(employeeData)
-    expect(response.status).toBe(201)
-    expect(typeof response.body).toBe('object')
-    expect(response.body).toHaveProperty('id')
-    expect(response.body.address).toHaveProperty('id')
-    expect(response.body).not.toHaveProperty('password')
-  })
+    employeeCreated.body.dismissalDate = '2021-09-15'
 
-  it('should be not able to create a user with an existing data', async () => {
-    await request(app).post('/employees/').send(employeeData)
-    const response = await request(app).post('/employees/').send(employeeData)
-    expect(response.status).toEqual(400)
+    const employeeUpdated = await request(app)
+      .put('/employees/')
+      .send(employeeCreated.body)
+    expect(typeof employeeUpdated.body).toBe('object')
+
+    expect(typeof employeeUpdated.body.dismissalDate).toBe('string')
   })
 })

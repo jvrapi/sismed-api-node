@@ -1,5 +1,9 @@
 import { Router } from 'express'
-import { CreateEmployee, ListAllEmployees } from '../modules/employees/'
+import {
+  CreateEmployee,
+  ListAllEmployees,
+  UpdateEmployee
+} from '../modules/employees/'
 const routes = Router()
 
 routes.get('/', (request, response) =>
@@ -8,6 +12,9 @@ routes.get('/', (request, response) =>
 
 routes.post('/', (request, response) =>
   CreateEmployee().handle(request, response)
+)
+routes.put('/', (request, response) =>
+  UpdateEmployee().handle(request, response)
 )
 
 export default routes
