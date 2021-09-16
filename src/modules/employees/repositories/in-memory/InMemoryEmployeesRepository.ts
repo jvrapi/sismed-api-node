@@ -4,6 +4,14 @@ import { IEmployeeRepository, IUniqueField } from '../IEmployeeRepository'
 class InMemoryEmployeesRepository implements IEmployeeRepository {
   private employees: Employee[] = []
 
+  async getByCpf(cpf: string): Promise<Employee> {
+    const employee = this.employees.find(employee => employee.cpf === cpf)
+
+    return new Promise<Employee>((resolve, reject) => {
+      resolve(employee)
+    })
+  }
+
   listAll(): Promise<Employee[]> {
     return new Promise<Employee[]>((resolve, reject) => {
       resolve(this.employees)

@@ -7,7 +7,6 @@ export interface IUniqueField {
   cpf: string
   crm: string
 }
-
 interface IEmployeeRepository {
   listAll(): Promise<Employee[]>
   getById(id: number): Promise<Employee>
@@ -16,6 +15,7 @@ interface IEmployeeRepository {
   delete(employeeId: number): Promise<String>
   employeeAlreadyExists(uniqueField: IUniqueField): Promise<Boolean>
   informationAlreadyExists(uniqueField: IUniqueField): Promise<Boolean>
+  getByCpf(cpf: string): Promise<Employee>
 }
 
 export { IEmployeeRepository }

@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { EnsureAuthenticated } from '../middlewares/EnsureAuthenticated'
 import {
   CreateEmployee,
   ListAllEmployees,
@@ -6,6 +7,8 @@ import {
   DeleteEmployee
 } from '../modules/employees/'
 const routes = Router()
+
+routes.use(EnsureAuthenticated)
 
 routes.get('/', (request, response) =>
   ListAllEmployees().handle(request, response)

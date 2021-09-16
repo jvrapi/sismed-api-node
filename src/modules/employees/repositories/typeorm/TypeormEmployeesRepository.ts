@@ -1,9 +1,10 @@
-import { Employee } from '../../../../entities/Employee'
 import { getRepository, Repository } from 'typeorm'
+import { Employee } from '../../../../entities/Employee'
 import { IEmployeeRepository, IUniqueField } from '../IEmployeeRepository'
 
 class TypeormEmployeesRepository implements IEmployeeRepository {
   private repository: Repository<Employee>
+
   constructor() {
     this.repository = getRepository(Employee)
   }
@@ -16,6 +17,10 @@ class TypeormEmployeesRepository implements IEmployeeRepository {
       take: 15
     })
     return employees
+  }
+
+  getByCpf(cpf: string): Promise<Employee> {
+    throw new Error('Method not implemented.')
   }
 
   getById(id: number): Promise<Employee> {
