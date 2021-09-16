@@ -32,6 +32,10 @@ class TypeormEmployeesRepository implements IEmployeeRepository {
     })
   }
 
+  informationAlreadyExists({ cpf, crm, rg }: IUniqueField): Promise<Boolean> {
+    throw new Error('Method not implemented.')
+  }
+
   update(employee: Employee): Promise<Employee> {
     throw new Error('Method not implemented.')
   }

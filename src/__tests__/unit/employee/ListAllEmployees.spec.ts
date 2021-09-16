@@ -2,7 +2,7 @@ import { IEmployeeRepository } from '../../../modules/employees/repositories/IEm
 import { InMemoryEmployeesRepository } from '../../../modules/employees/repositories/in-memory/InMemoryEmployeesRepository'
 import { ListEmployeesService } from '../../../modules/employees/services/ListEmployeesService'
 
-describe('List All Employees Service', () => {
+describe('List All Employees', () => {
   let listAllEmployeesRepository: IEmployeeRepository
   let listAllEmployeesService: ListEmployeesService
 

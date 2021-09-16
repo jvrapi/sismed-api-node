@@ -19,14 +19,50 @@ class InMemoryEmployeesRepository implements IEmployeeRepository {
       resolve(
         this.employees.some(
           employee =>
-            employee.cpf === cpf || employee.crm === crm || employee.rg === rg
+            employee.cpf === cpf ||
+            employee.rg === rg ||
+            (employee.crm && employee.crm === crm)
         )
       )
     })
   }
 
-  update(employee: Employee): Promise<Employee> {
-    throw new Error('Method not implemented.')
+  informationAlreadyExists({
+    id,
+    cpf,
+    crm,
+    rg
+  }: IUniqueField): Promise<Boolean> {
+    return new Promise<Boolean>((resolve, reject) => {
+      resolve(
+        this.employees
+          .filter(employee => employee.id !== id)
+          .some(
+            employee =>
+              employee.cpf === cpf ||
+              employee.rg === rg ||
+              (employee.crm && employee.crm === crm)
+          )
+      )
+    })
+  }
+
+  update(employeeData: Employee): Promise<Employee> {
+    let arrayPosition: number
+    const updatedArray = this.employees.map((employee, i) => {
+      if (employeeData.id === employee.id) {
+        arrayPosition = i
+        return employeeData
+      } else {
+        return employee
+      }
+    })
+
+    this.employees = updatedArray
+
+    return new Promise<Employee>((resolve, reject) => {
+      resolve(this.employees[arrayPosition])
+    })
   }
 
   save(employee: Employee): Promise<Employee> {

@@ -47,19 +47,7 @@ describe('Request to create new employee', () => {
     expect(response.body).not.toHaveProperty('password')
   })
 
-  it('should be not able to create a user with an existing cpf', async () => {
-    await request(app).post('/employees/').send(employeeData)
-    const response = await request(app).post('/employees/').send(employeeData)
-    expect(response.status).toEqual(400)
-  })
-
-  it('should be not able to create a user with an existing rg', async () => {
-    await request(app).post('/employees/').send(employeeData)
-    const response = await request(app).post('/employees/').send(employeeData)
-    expect(response.status).toEqual(400)
-  })
-
-  it('should be not able to create a user with an existing crm', async () => {
+  it('should be not able to create a user with an existing data', async () => {
     await request(app).post('/employees/').send(employeeData)
     const response = await request(app).post('/employees/').send(employeeData)
     expect(response.status).toEqual(400)

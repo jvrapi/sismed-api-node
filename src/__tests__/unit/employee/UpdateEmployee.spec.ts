@@ -1,10 +1,12 @@
 import { IEmployeeRepository } from '../../../modules/employees/repositories/IEmployeeRepository'
 import { InMemoryEmployeesRepository } from '../../../modules/employees/repositories/in-memory/InMemoryEmployeesRepository'
 import { CreateEmployeeService } from '../../../modules/employees/services/CreateEmployeeService'
+import { UpdateEmployeeService } from '../../../modules/employees/services/UpdateEmployeeService'
 
-describe('Create new employee', () => {
+describe('Update Employee', () => {
   let createNewEmployeeRepository: IEmployeeRepository
   let createEmployeeService: CreateEmployeeService
+  let updateEmployeeService: UpdateEmployeeService
 
   const employeeData = {
     name: 'Alexandre Renan Silveira',
@@ -38,18 +40,36 @@ describe('Create new employee', () => {
     createEmployeeService = new CreateEmployeeService(
       createNewEmployeeRepository
     )
-  })
-
-  it('should be able to create a new employee', async () => {
-    const employee = await createEmployeeService.execute(employeeData)
-    expect(typeof employee).toBe('object')
-    expect(employee).toHaveProperty('id')
-    expect(employee.address).toHaveProperty('id')
-  })
-
-  it('should be not able to create a user with an existing data', async () => {
-    await expect(createEmployeeService.execute(employeeData)).rejects.toEqual(
-      new Error('Employee already exists!')
+    updateEmployeeService = new UpdateEmployeeService(
+      createNewEmployeeRepository
     )
+  })
+
+  it('should be able to update an employee', async () => {
+    const employee = await createEmployeeService.execute(employeeData)
+    employee.dismissalDate = new Date('2021-09-15')
+
+    const updatedEmployee = await updateEmployeeService.execute(employee)
+
+    expect(typeof updatedEmployee).toBe('object')
+    expect(updatedEmployee.dismissalDate).toBeInstanceOf(Date)
+  })
+
+  it('should not be able to update an employee with existing data', async () => {
+    const newEmployee = {
+      ...employeeData,
+      name: 'Raquel Maitê Daiane Silveira',
+      cpf: '07202007761',
+      rg: '289153281',
+      email: 'raquelmaitedaianesilveira-90@gmx.com',
+      sex: 'F'
+    }
+
+    const employeeCreated = await createEmployeeService.execute(newEmployee)
+    employeeCreated.cpf = employeeData.cpf
+    employeeCreated.rg = employeeData.rg
+    await expect(
+      updateEmployeeService.execute(employeeCreated)
+    ).rejects.toEqual(new Error('Cannot update employee'))
   })
 })
