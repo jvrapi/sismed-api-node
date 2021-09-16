@@ -6,10 +6,9 @@ class DeleteEmployeeService {
     if (!id) {
       throw new Error('Missing information')
     }
-
     try {
-      await this.repository.delete(id)
-      return 'Employee deleted successfully'
+      const message = await this.repository.delete(id)
+      return message
     } catch {
       throw new Error('Error trying  delete employee')
     }

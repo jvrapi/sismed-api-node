@@ -70,8 +70,11 @@ class TypeormEmployeesRepository implements IEmployeeRepository {
     return this.repository.save(newEmployee)
   }
 
-  delete(employeeId: number): Promise<String> {
-    throw new Error('Method not implemented.')
+  async delete(employeeId: number): Promise<String> {
+    await this.repository.delete(employeeId)
+    return new Promise<String>((resolve, reject) => {
+      resolve('Employee deleted successfully')
+    })
   }
 }
 

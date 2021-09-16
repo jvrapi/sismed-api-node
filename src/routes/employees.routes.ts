@@ -2,7 +2,8 @@ import { Router } from 'express'
 import {
   CreateEmployee,
   ListAllEmployees,
-  UpdateEmployee
+  UpdateEmployee,
+  DeleteEmployee
 } from '../modules/employees/'
 const routes = Router()
 
@@ -15,6 +16,10 @@ routes.post('/', (request, response) =>
 )
 routes.put('/', (request, response) =>
   UpdateEmployee().handle(request, response)
+)
+
+routes.delete('/:id', (request, response) =>
+  DeleteEmployee().handle(request, response)
 )
 
 export default routes

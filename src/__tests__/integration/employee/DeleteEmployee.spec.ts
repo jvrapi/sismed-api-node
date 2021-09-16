@@ -2,7 +2,7 @@ import { app } from '../../../app'
 import request from 'supertest'
 import { connection } from '../../../../typeorm/connection'
 
-describe('Request to update employee informations', () => {
+describe('Request to delete an employee', () => {
   const employeeData = {
     name: 'Alexandre Renan Silveira',
     cpf: '07202007762',
@@ -36,19 +36,17 @@ describe('Request to update employee informations', () => {
   afterAll(async () => {
     await connection.close()
   })
-  it('should be able to update an employee on request', async () => {
+
+  it('should be able to delete an employee by id on request', async () => {
     const employeeCreated = await request(app)
       .post('/employees/')
       .send(employeeData)
 
-    employeeCreated.body.dismissalDate = '2021-09-15'
-
-    const employeeUpdated = await request(app)
-      .put('/employees/')
-      .send(employeeCreated.body)
-
-    expect(employeeUpdated.status).toEqual(200)
-    expect(typeof employeeUpdated.body).toBe('object')
-    expect(typeof employeeUpdated.body.dismissalDate).toBe('string')
+    const employeeDeleted = await request(app).delete(
+      `/employees/${employeeCreated.body.id}/`
+    )
+    expect(employeeDeleted.status).toEqual(200)
+    expect(typeof employeeDeleted.body).toBe('string')
+    expect(employeeDeleted.body).toEqual('Employee deleted successfully')
   })
 })
