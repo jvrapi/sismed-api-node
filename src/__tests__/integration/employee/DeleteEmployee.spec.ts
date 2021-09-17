@@ -1,6 +1,7 @@
 import { app } from '../../../app'
 import request from 'supertest'
 import { connection } from '../../../../typeorm/connection'
+import { sign } from 'jsonwebtoken'
 
 describe('Request to delete an employee', () => {
   const employeeData = {
@@ -29,7 +30,12 @@ describe('Request to delete an employee', () => {
       state: 'RJ'
     }
   }
+  let token = ''
   beforeAll(async () => {
+    const secret = process.env.TOKEN_KEY || 'secret'
+
+    token = sign({}, secret, { expiresIn: '60s' })
+
     await connection.connect()
   })
 
@@ -40,11 +46,13 @@ describe('Request to delete an employee', () => {
   it('should be able to delete an employee by id on request', async () => {
     const employeeCreated = await request(app)
       .post('/employees/')
+      .set('authorization', `Bearer ${token}`)
       .send(employeeData)
 
-    const employeeDeleted = await request(app).delete(
-      `/employees/${employeeCreated.body.id}/`
-    )
+    const employeeDeleted = await request(app)
+      .delete(`/employees/${employeeCreated.body.id}/`)
+      .set('authorization', `Bearer ${token}`)
+
     expect(employeeDeleted.status).toEqual(200)
     expect(typeof employeeDeleted.body).toBe('string')
     expect(employeeDeleted.body).toEqual('Employee deleted successfully')

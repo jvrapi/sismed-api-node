@@ -1,6 +1,7 @@
 import { app } from '../../../app'
 import request from 'supertest'
 import { connection } from '../../../../typeorm/connection'
+import { sign } from 'jsonwebtoken'
 
 describe('Request to update employee informations', () => {
   const employeeData = {
@@ -29,7 +30,12 @@ describe('Request to update employee informations', () => {
       state: 'RJ'
     }
   }
+  let token = ''
   beforeAll(async () => {
+    const secret = process.env.TOKEN_KEY || 'secret'
+
+    token = sign({}, secret, { expiresIn: '60s' })
+
     await connection.connect()
   })
 
@@ -39,12 +45,14 @@ describe('Request to update employee informations', () => {
   it('should be able to update an employee on request', async () => {
     const employeeCreated = await request(app)
       .post('/employees/')
+      .set('authorization', `Bearer ${token}`)
       .send(employeeData)
 
     employeeCreated.body.dismissalDate = '2021-09-15'
 
     const employeeUpdated = await request(app)
       .put('/employees/')
+      .set('authorization', `Bearer ${token}`)
       .send(employeeCreated.body)
 
     expect(employeeUpdated.status).toEqual(200)

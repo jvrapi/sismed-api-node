@@ -5,7 +5,10 @@ import { IRefreshTokenRepository } from '../repositories/IRefreshTokenRepository
 class GenerateRefreshTokenService {
   constructor(private repository: IRefreshTokenRepository) { }
   async execute(employeeId: number) {
-    const expiresIn = dayjs().add(1200, 'second').unix()
+    const seconds = process.env.TEST ? '3' : '1200'
+    const expiresIn = dayjs()
+      .add(+seconds, 'second')
+      .unix()
     const refreshTokenData = {
       id: uuid(),
       expiresIn,

@@ -1,6 +1,7 @@
 import { app } from '../../../app'
 import request from 'supertest'
 import { connection } from '../../../../typeorm/connection'
+import { sign } from 'jsonwebtoken'
 
 describe('Request to create new employee', () => {
   const employeeData = {
@@ -29,7 +30,12 @@ describe('Request to create new employee', () => {
       state: 'RJ'
     }
   }
+  let token = ''
   beforeAll(async () => {
+    const secret = process.env.TOKEN_KEY || 'secret'
+
+    token = sign({}, secret, { expiresIn: '60s' })
+
     await connection.connect()
   })
 
@@ -38,7 +44,10 @@ describe('Request to create new employee', () => {
   })
 
   it('should be able to create a new employee on request', async () => {
-    const response = await request(app).post('/employees/').send(employeeData)
+    const response = await request(app)
+      .post('/employees/')
+      .set('authorization', `Bearer ${token}`)
+      .send(employeeData)
     expect(response.status).toBe(201)
     expect(typeof response.body).toBe('object')
     expect(response.body).toHaveProperty('id')
@@ -47,8 +56,14 @@ describe('Request to create new employee', () => {
   })
 
   it('should be not able to create a user with an existing data', async () => {
-    await request(app).post('/employees/').send(employeeData)
-    const response = await request(app).post('/employees/').send(employeeData)
+    await request(app)
+      .post('/employees/')
+      .set('authorization', `Bearer ${token}`)
+      .send(employeeData)
+    const response = await request(app)
+      .post('/employees/')
+      .set('authorization', `Bearer ${token}`)
+      .send(employeeData)
     expect(response.status).toEqual(400)
   })
 })

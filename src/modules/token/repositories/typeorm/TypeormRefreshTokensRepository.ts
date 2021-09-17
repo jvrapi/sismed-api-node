@@ -1,9 +1,6 @@
 import { getRepository, Repository } from 'typeorm'
 import { RefreshToken } from '../../../../entities/RefreshToken'
-import {
-  IRefreshTokenRepository,
-  IRefreshToken
-} from '../IRefreshTokenRepository'
+import { IRefreshTokenRepository } from '../IRefreshTokenRepository'
 
 class TypeormRefreshTokensRepository implements IRefreshTokenRepository {
   private repository: Repository<RefreshToken>
@@ -12,7 +9,7 @@ class TypeormRefreshTokensRepository implements IRefreshTokenRepository {
     this.repository = getRepository(RefreshToken)
   }
 
-  async update(refreshToken: IRefreshToken): Promise<IRefreshToken> {
+  async update(refreshToken: RefreshToken): Promise<RefreshToken> {
     await this.repository
       .createQueryBuilder()
       .delete()
@@ -24,6 +21,10 @@ class TypeormRefreshTokensRepository implements IRefreshTokenRepository {
     const generateRefreshToken = this.repository.create(refreshToken)
 
     return this.repository.save(generateRefreshToken)
+  }
+
+  getById(refreshTokenId: string): Promise<RefreshToken> {
+    throw new Error('Method not implemented')
   }
 }
 export { TypeormRefreshTokensRepository }

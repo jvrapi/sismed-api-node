@@ -1,11 +1,9 @@
-export interface IRefreshToken {
-  employeeId: number
-  expiresIn: number
-  id: string
-}
+import { DeepPartial } from 'typeorm'
+import { RefreshToken } from '../../../entities/RefreshToken'
 
 interface IRefreshTokenRepository {
-  update(refreshToken: IRefreshToken): Promise<IRefreshToken>
+  update(refreshToken: DeepPartial<RefreshToken>): Promise<RefreshToken>
+  getById(refreshTokenId: string): Promise<RefreshToken>
 }
 
 export { IRefreshTokenRepository }
