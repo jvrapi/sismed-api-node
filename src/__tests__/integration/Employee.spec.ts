@@ -1,10 +1,11 @@
-import { app } from '../../../app'
+import { app } from '../../app'
 import request from 'supertest'
-import { connection } from '../../../../typeorm/connection'
+import { connection } from '../../../typeorm/connection'
 import { sign } from 'jsonwebtoken'
 
 describe('Request to create new employee', () => {
-  const employeeData = {
+  let employeeData = {
+    id: null,
     name: 'Alexandre Renan Silveira',
     cpf: '07202007762',
     rg: '284301383',
@@ -48,6 +49,7 @@ describe('Request to create new employee', () => {
       .post('/employees/')
       .set('authorization', `Bearer ${token}`)
       .send(employeeData)
+    employeeData = response.body
     expect(response.status).toBe(201)
     expect(typeof response.body).toBe('object')
     expect(response.body).toHaveProperty('id')
@@ -65,5 +67,38 @@ describe('Request to create new employee', () => {
       .set('authorization', `Bearer ${token}`)
       .send(employeeData)
     expect(response.status).toEqual(400)
+  })
+
+  it('should be able to list all employees on request', async () => {
+    const response = await request(app)
+      .get('/employees/')
+      .set('authorization', `Bearer ${token}`)
+    expect(response.status).toBe(200)
+    expect(Array.isArray(response.body)).toBe(true)
+    expect(response.body.some(element => element.password)).toBe(false)
+  })
+  it('should be able to update an employee on request', async () => {
+    Object.assign(employeeData, {
+      dismissalDate: '2021-09-15'
+    })
+
+    const employeeUpdated = await request(app)
+      .put('/employees/')
+      .set('authorization', `Bearer ${token}`)
+      .send(employeeData)
+
+    expect(employeeUpdated.status).toEqual(200)
+    expect(typeof employeeUpdated.body).toBe('object')
+    expect(typeof employeeUpdated.body.dismissalDate).toBe('string')
+  })
+
+  it('should be able to delete an employee by id on request', async () => {
+    const employeeDeleted = await request(app)
+      .delete(`/employees/${employeeData.id}/`)
+      .set('authorization', `Bearer ${token}`)
+
+    expect(employeeDeleted.status).toEqual(200)
+    expect(typeof employeeDeleted.body).toBe('string')
+    expect(employeeDeleted.body).toEqual('Employee deleted successfully')
   })
 })

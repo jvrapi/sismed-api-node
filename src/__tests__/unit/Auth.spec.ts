@@ -1,11 +1,11 @@
-import { IRefreshTokenRepository } from '../../modules/token/repositories/IRefreshTokenRepository'
-import { IEmployeeRepository } from '../../modules/employees/repositories/IEmployeeRepository'
-import { InMemoryRefreshTokenRepository } from '../../modules/token/repositories/in-memory/InMemoryRefreshTokenRepository'
-import { InMemoryEmployeesRepository } from '../../modules/employees/repositories/in-memory/InMemoryEmployeesRepository'
-import { RefreshTokenService } from '../../modules/token/services/RefreshTokenService'
-import { CreateEmployeeService } from '../../modules/employees/services/CreateEmployeeService'
-import { AuthenticateEmployeeService } from '../../modules/employees/services/AuthenticateEmployeeService'
 import { RefreshToken } from '../../entities/RefreshToken'
+import { InMemoryRefreshTokenRepository } from '../../modules/auth/repositories/in-memory/InMemoryRefreshTokenRepository'
+import { IRefreshTokenRepository } from '../../modules/auth/repositories/IRefreshTokenRepository'
+import { RefreshTokenService } from '../../modules/auth/services/RefreshTokenService'
+import { IEmployeeRepository } from '../../modules/employees/repositories/IEmployeeRepository'
+import { InMemoryEmployeesRepository } from '../../modules/employees/repositories/in-memory/InMemoryEmployeesRepository'
+import { AuthenticateEmployeeService } from '../../modules/auth/services/AuthenticateEmployeeService'
+import { CreateEmployeeService } from '../../modules/employees/services/CreateEmployeeService'
 
 interface EmployeeAuthenticated {
   token: string
@@ -13,12 +13,14 @@ interface EmployeeAuthenticated {
   refreshToken: RefreshToken
 }
 
-describe('Refresh token', () => {
-  let refreshTokenRepository: IRefreshTokenRepository
+describe('Authenticate employee', () => {
   let employeeRepository: IEmployeeRepository
+  let refreshTokenRepository: IRefreshTokenRepository
+
   let refreshTokenService: RefreshTokenService
-  let createEmployeeService: CreateEmployeeService
   let authenticateEmployeeService: AuthenticateEmployeeService
+  let createEmployeeService: CreateEmployeeService
+
   let authenticatedEmployee: EmployeeAuthenticated
 
   const employeeData = {
@@ -48,23 +50,36 @@ describe('Refresh token', () => {
     }
   }
 
-  beforeAll(async () => {
-    refreshTokenRepository = new InMemoryRefreshTokenRepository()
+  beforeAll(() => {
     employeeRepository = new InMemoryEmployeesRepository()
-    createEmployeeService = new CreateEmployeeService(employeeRepository)
+
+    refreshTokenRepository = new InMemoryRefreshTokenRepository()
+
     authenticateEmployeeService = new AuthenticateEmployeeService(
       employeeRepository,
       refreshTokenRepository
     )
+
+    createEmployeeService = new CreateEmployeeService(employeeRepository)
+
     refreshTokenService = new RefreshTokenService(refreshTokenRepository)
+  })
 
-    await createEmployeeService.execute(employeeData)
+  it('should be able to authenticate an employee', async () => {
+    const employee = await createEmployeeService.execute(employeeData)
 
-    authenticatedEmployee = await authenticateEmployeeService.execute(
-      employeeData.cpf,
+    const authenticated = await authenticateEmployeeService.execute(
+      employee.cpf,
       '4bz8JFBaGF'
     )
+
+    authenticatedEmployee = authenticated
+    expect(authenticated).toHaveProperty('token')
+    expect(authenticated).toHaveProperty('refreshToken')
+    expect(authenticated).toHaveProperty('name')
+    expect(typeof authenticated).toBe('object')
   })
+
   it('should be able to generate a new token using a refresh token', async () => {
     await new Promise(resolve => setTimeout(resolve, 3000))
     const { refreshToken, token } = await refreshTokenService.execute(

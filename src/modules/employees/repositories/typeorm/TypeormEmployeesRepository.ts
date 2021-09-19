@@ -20,7 +20,8 @@ class TypeormEmployeesRepository implements IEmployeeRepository {
   }
 
   getByCpf(cpf: string): Promise<Employee> {
-    throw new Error('Method not implemented.')
+    const employee = this.repository.findOneOrFail({ cpf })
+    return employee
   }
 
   getById(id: number): Promise<Employee> {

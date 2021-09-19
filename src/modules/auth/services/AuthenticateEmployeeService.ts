@@ -1,8 +1,8 @@
-import { IEmployeeRepository } from '../repositories/IEmployeeRepository'
 import { compare } from 'bcryptjs'
 import { GenerateTokenProvider } from '../../../providers/GenerateTokenProvider'
-import { IRefreshTokenRepository } from '../../token/repositories/IRefreshTokenRepository'
-import { GenerateRefreshTokenService } from '../../token/services/GenerateRefreshTokenService'
+import { IRefreshTokenRepository } from '../../auth/repositories/IRefreshTokenRepository'
+import { GenerateRefreshTokenService } from '../../auth/services/GenerateRefreshTokenService'
+import { IEmployeeRepository } from '../../employees/repositories/IEmployeeRepository'
 
 class AuthenticateEmployeeService {
   employeeRepository: IEmployeeRepository
@@ -21,7 +21,6 @@ class AuthenticateEmployeeService {
     if (!username || !password) {
       throw new Error('Missing information')
     }
-
     try {
       const employee = await this.employeeRepository.getByCpf(username)
 
@@ -31,7 +30,6 @@ class AuthenticateEmployeeService {
       if (!passwordIsCorrect) {
         throw new Error('Username or password is invalid')
       }
-
       // Generate token to employee
       const generateTokenProvider = new GenerateTokenProvider()
       const token = await generateTokenProvider.execute(employee.id)

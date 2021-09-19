@@ -1,28 +1,26 @@
 import { Router } from 'express'
 import { EnsureAuthenticated } from '../middlewares/EnsureAuthenticated'
-import {
-  CreateEmployee,
-  ListAllEmployees,
-  UpdateEmployee,
-  DeleteEmployee
-} from '../modules/employees/'
-const routes = Router()
+import createEmployeeFactory from '../modules/employees/Factories/CreateEmployeeFactory'
+import deleteEmployeeFactory from '../modules/employees/Factories/DeleteEmployeeFactory'
+import listAllEmployeesFactory from '../modules/employees/Factories/ListAllEmployeesFactory'
+import updateEmployeeFactory from '../modules/employees/Factories/UpdateEmployeeFactory'
+const EmployeesRoutes = Router()
 
-routes.use(EnsureAuthenticated)
+EmployeesRoutes.use(EnsureAuthenticated)
 
-routes.get('/', (request, response) =>
-  ListAllEmployees().handle(request, response)
+EmployeesRoutes.get('/', (request, response) =>
+  listAllEmployeesFactory().handle(request, response)
 )
 
-routes.post('/', (request, response) =>
-  CreateEmployee().handle(request, response)
+EmployeesRoutes.post('/', (request, response) =>
+  createEmployeeFactory().handle(request, response)
 )
-routes.put('/', (request, response) =>
-  UpdateEmployee().handle(request, response)
-)
-
-routes.delete('/:id', (request, response) =>
-  DeleteEmployee().handle(request, response)
+EmployeesRoutes.put('/', (request, response) =>
+  updateEmployeeFactory().handle(request, response)
 )
 
-export default routes
+EmployeesRoutes.delete('/:id', (request, response) =>
+  deleteEmployeeFactory().handle(request, response)
+)
+
+export { EmployeesRoutes }
