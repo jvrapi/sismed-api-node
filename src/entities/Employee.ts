@@ -10,11 +10,11 @@ import {
 } from 'typeorm'
 
 import { Address } from './Address'
-// import ClinicalRecord from './ClinicalRecord'
-// import HealthInsuranceType from './HealthInsuranceType'
+import { ClinicalRecord } from './ClinicalRecord'
+import { HealthInsuranceType } from './HealthInsuranceType'
 // import Log from './Log'
 import { Profile } from './Profile'
-// import Schedule from './Schedule'
+import { Schedule } from './Schedule'
 
 @Entity('employees')
 class Employee {
@@ -87,8 +87,8 @@ class Employee {
   @Column({ name: 'profile_id' })
   profileId: number
 
-  // @OneToMany(() => ClinicalRecord, clinicalRecord => clinicalRecord.employee)
-  // clinicalRecords: ClinicalRecord[]
+  @OneToMany(() => ClinicalRecord, clinicalRecord => clinicalRecord.employee)
+  clinicalRecords: ClinicalRecord[]
 
   @ManyToOne(() => Address, address => address.employees, {
     onDelete: 'NO ACTION',
@@ -105,25 +105,25 @@ class Employee {
   @JoinColumn([{ name: 'profile_id', referencedColumnName: 'id' }])
   profile: Profile
 
-  // @ManyToMany(
-  //   () => HealthInsuranceType,
-  //   healthInsuranceType => healthInsuranceType.employees
-  // )
-  // @JoinTable({
-  //   name: 'employee_health_insurance_type',
-  //   joinColumns: [{ name: 'employee_id', referencedColumnName: 'id' }],
-  //   inverseJoinColumns: [
-  //     { name: 'health_insurance_type_id', referencedColumnName: 'id' }
-  //   ],
-  //   schema: 'sismed'
-  // })
-  // healthInsuranceTypes: HealthInsuranceType[]
+  @ManyToMany(
+    () => HealthInsuranceType,
+    healthInsuranceType => healthInsuranceType.employees
+  )
+  @JoinTable({
+    name: 'employee_health_insurance_type',
+    joinColumns: [{ name: 'employee_id', referencedColumnName: 'id' }],
+    inverseJoinColumns: [
+      { name: 'health_insurance_type_id', referencedColumnName: 'id' }
+    ],
+    schema: 'sismed'
+  })
+  healthInsuranceTypes: HealthInsuranceType[]
 
   // @OneToMany(() => Log, log => log.employee)
   // logs: Log[]
 
-  // @OneToMany(() => Schedule, schedule => schedule.employee)
-  // schedules: Schedule[]
+  @OneToMany(() => Schedule, schedule => schedule.employee)
+  schedules: Schedule[]
 }
 
 export { Employee }
