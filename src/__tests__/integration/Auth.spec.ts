@@ -2,6 +2,13 @@ import { sign } from 'jsonwebtoken'
 import { connection } from '../../../typeorm/connection'
 import { app } from '../../app'
 import request from 'supertest'
+import { RefreshToken } from '../../entities/RefreshToken'
+
+interface EmployeeAuthenticated {
+  token: string
+  name: string
+  refreshToken: RefreshToken
+}
 
 describe('Request to refresh token', () => {
   let employeeData = {
@@ -32,6 +39,8 @@ describe('Request to refresh token', () => {
     }
   }
 
+  let authenticated: EmployeeAuthenticated
+
   let token = ''
   beforeAll(async () => {
     const secret = process.env.TOKEN_KEY || 'secret'
@@ -56,11 +65,22 @@ describe('Request to refresh token', () => {
       password: '4bz8JFBaGF'
     })
 
+    authenticated = body
+
     expect(status).toEqual(200)
     expect(body).toHaveProperty('name')
     expect(body).toHaveProperty('token')
     expect(body).toHaveProperty('refreshToken')
   })
 
-  it.todo('should be able to create a new token by refresh token')
+  it('should be able to create a new token by refresh token', async () => {
+    await new Promise(resolve => setTimeout(resolve, 3000))
+    const { body } = await request(app)
+      .post('/auth/refresh-token')
+      .send({ refreshTokenId: authenticated.refreshToken.id })
+
+    expect(body.id).not.toEqual(authenticated.refreshToken.id)
+    expect(token).not.toEqual(authenticated.token)
+  })
 })
+jest.setTimeout(30000)

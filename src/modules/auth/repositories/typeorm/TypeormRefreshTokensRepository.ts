@@ -24,7 +24,7 @@ class TypeormRefreshTokensRepository implements IRefreshTokenRepository {
   }
 
   getById(refreshTokenId: string): Promise<RefreshToken> {
-    throw new Error('Method not implemented')
+    return this.repository.findOneOrFail({ id: refreshTokenId })
   }
 }
 export { TypeormRefreshTokensRepository }
